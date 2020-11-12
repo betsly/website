@@ -14,6 +14,7 @@
     <body>
         <h1>Wilkommen bei Betsly</h1>
         <form method="POST">
+            <p>Chrissi is echt dumm?!</p>
         </form>
         
        
