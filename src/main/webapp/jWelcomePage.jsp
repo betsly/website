@@ -12,10 +12,10 @@
         <title>Welcome to Betsly</title>
     </head>
     <body>
-        <h1>Wilkommen bei Betsly</h1>
-        <form method="POST">
-            <p>Chrissi is echt dumm?!</p>
-            <h1>Chrissi speicher mal deine Dokumente du IDIOT</h1>
+        <h1>Willkommen bei Betsly</h1>
+        <form  action="./BetslyServlet" method="POST">
+            <input type="submit" value="Registrieren" name="registration"/>
+            <input type="submit" value="Login" name="login" />
         </form>
         
        
