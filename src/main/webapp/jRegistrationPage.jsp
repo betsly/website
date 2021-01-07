@@ -33,7 +33,7 @@
         <input class="input" type="password" name="confirmation" value="" placeholder="Passwort bestätigen"/>
         </center>
         <input type="submit" value="zurück" name="back" />
-        <input type="submit" value="bestätigen" name="confirm"/>
+        <input type="submit" value="bestätigen" name="confirmRegistration"/>
         </form>
         </body>
 </html>

@@ -45,7 +45,7 @@ public class DB_Access {
         }
     }
     
-    public List<User> getUsername() throws SQLException{
+    public List<User> getAllUsers() throws SQLException{
         List<User> users = new ArrayList<>();
         String sql = "SELECT * FROM user_account;";
         Statement prep = db.getStatement();
@@ -62,13 +62,22 @@ public class DB_Access {
     public boolean insertUser(User user) throws SQLException{
         if (insertUserPrStat == null) {
             insertUserPrStat = db.getConnection().prepareStatement(insertUserString);
-        }
-        
+        }        
         insertUserPrStat.setString(1, user.getUsername());
         insertUserPrStat.setInt(2, user.getPw().hashCode());
         insertUserPrStat.setString(3, user.getEmail());
-        
         int numDataSets = insertUserPrStat.executeUpdate();
         return numDataSets > 0;
+    }
+    
+    public int getPasswordByEmail(String email) throws SQLException{
+        String password = "";
+        String sql = "SELECT password FROM user_account WHERE email = \'"+email+"\';";
+        Statement prep = db.getStatement();
+        ResultSet rs = prep.executeQuery(sql);
+        while(rs.next()) {
+            password = rs.getString("password");
+        }
+        return password != "" ? Integer.parseInt(password) : -1;
     }
 }
