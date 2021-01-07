@@ -6,6 +6,7 @@
 package at.kaindorf.DB;
 
 import at.kaindorf.beans.User;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -23,6 +24,9 @@ public class DB_Access {
      */
     private static DB_Access theInstance = null;
     private DB_Database db;
+    private final String insertUserString = "INSERT INTO user_account (username, password, email) "
+            + "VALUES ( ? , ? , ? , ?);";
+    private PreparedStatement insertUserPrStat = null;
 
     public static DB_Access getInstance() throws SQLException {
         if (theInstance == null) {
@@ -53,5 +57,18 @@ public class DB_Access {
             users.add(new User(email, username, password));
         }
         return users;
+    }
+    
+    public boolean insertUser(User user) throws SQLException{
+        if (insertUserPrStat == null) {
+            insertUserPrStat = db.getConnection().prepareStatement(insertUserString);
+        }
+        
+        insertUserPrStat.setString(1, user.getUsername());
+        insertUserPrStat.setInt(2, user.getPw().hashCode());
+        insertUserPrStat.setString(1, user.getEmail());
+        
+        int numDataSets = insertUserPrStat.executeUpdate();
+        return numDataSets > 0;
     }
 }
