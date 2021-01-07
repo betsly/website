@@ -36,12 +36,12 @@ public class BetslyServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-//        try {
-//            request.setAttribute("dbTestung", DB_Access.getInstance().getUsername());
-//        } catch (SQLException ex) {
-//            Logger.getLogger(BetslyServlet.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-        request.getRequestDispatcher("jRegistrationPage.jsp").forward(request, response);
+        try {
+            request.setAttribute("dbTestung", DB_Access.getInstance().getUsername());
+        } catch (SQLException ex) {
+            Logger.getLogger(BetslyServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        request.getRequestDispatcher("jWelcomePage.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
