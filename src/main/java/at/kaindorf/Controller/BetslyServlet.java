@@ -70,6 +70,15 @@ public class BetslyServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        if (request.getParameter("registration") != null) {
+            request.getRequestDispatcher("jRegistrationPage.jsp").forward(request, response);
+        }
+        if (request.getParameter("login") != null) {
+            request.getRequestDispatcher("jLoginPage.jsp").forward(request, response);
+        }
+
+        
         processRequest(request, response);
     }
 
