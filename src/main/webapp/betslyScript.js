@@ -1,7 +1,12 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+function validate() {
+    let psw1 = document.getElementById("password").value;
+    let psw2 = document.getElementById("confirmation").value;
 
+    let success = false;
 
+    if (psw1 == psw2) {
+        
+    }
+
+    return success;
+};
