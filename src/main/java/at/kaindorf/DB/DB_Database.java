@@ -16,7 +16,7 @@ import java.sql.Statement;
  */
 public class DB_Database {
 
-    private String db_url = "jdbc:postgresql://localhost/betsly";
+    private String db_url = "jdbc:postgresql://localhost:5432/betsly";
     private String db_driver = "org.postgresql.Driver";
     private String db_username = "postgres";
     private String db_password = "postgres";
