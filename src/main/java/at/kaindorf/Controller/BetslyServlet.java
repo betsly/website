@@ -37,13 +37,19 @@ public class BetslyServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try {
+        
+        if (request.getParameter("registration") != null) {
+            request.getRequestDispatcher("jRegistrationPage.jsp").forward(request, response);
+        }
+        /*try {
             //DB_Access.getInstance().insertUser(new User("test@test.test", "testi", "12345"));
             request.setAttribute("dbTestung", DB_Access.getInstance().getUsername());            
         } catch (SQLException ex) {
             Logger.getLogger(BetslyServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
+        else {
+            request.getRequestDispatcher("jWelcomePage.jsp").forward(request, response);
         }
-        request.getRequestDispatcher("jWelcomePage.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -73,14 +79,24 @@ public class BetslyServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        if (request.getParameter("registration") != null) {
-            request.getRequestDispatcher("jRegistrationPage.jsp").forward(request, response);
-        }
+        
         if (request.getParameter("login") != null) {
             request.getRequestDispatcher("jLoginPage.jsp").forward(request, response);
+        }       
+        if (request.getParameter("confirm") != null) {
+            
+            String username = request.getParameter("username");
+            String passwort = request.getParameter("password");
+            String email = request.getParameter("email");
+            
+            try {
+                DB_Access.getInstance().insertUser(new User(email, username, passwort));
+            } catch (SQLException ex) {
+                ex.toString();
+            }
+            
         }
 
-        
         processRequest(request, response);
     }
 

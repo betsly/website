@@ -28,12 +28,12 @@
         </br> </br>
         Passwort
         </br>
-        <input class="input" type="password" name="passwort" value="" placeholder="Passwort" />
+        <input class="input" type="password" name="password" value="" placeholder="Passwort" />
         </br> </br>
-        <input class="input" type="password" name="confirm password" value="" placeholder="Passwort bestätigen"/>
+        <input class="input" type="password" name="confirmation" value="" placeholder="Passwort bestätigen"/>
         </center>
         <input type="submit" value="zurück" name="back" />
-        <input type="submit" value="bestätigen" name="bestätigen"/>
+        <input type="submit" value="bestätigen" name="confirm"/>
         </form>
         </body>
 </html>

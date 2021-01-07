@@ -19,6 +19,7 @@
             ${user.email}
             ${user.pw}
         </c:forEach>
+        ${test1}
         <form  action="./BetslyServlet" method="POST">
             <input type="submit" value="Registrieren" name="registration"/>
             <input type="submit" value="Login" name="login" />
