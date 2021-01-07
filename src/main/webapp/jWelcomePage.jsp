@@ -23,7 +23,12 @@
             <input type="submit" value="Registrieren" name="registration"/>
             <input type="submit" value="Login" name="login" />
         </form>
+<<<<<<< HEAD
+        
+     
+=======
 
 
+>>>>>>> main
     </body>
 </html>
