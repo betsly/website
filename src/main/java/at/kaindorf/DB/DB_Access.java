@@ -48,7 +48,7 @@ public class DB_Access {
         ResultSet rs = prep.executeQuery(sql);
         while(rs.next()) {
             String username = rs.getString("username");
-            String password = rs.getString("pw");
+            String password = rs.getString("password");
             String email = rs.getString("email");
             users.add(new User(email, username, password));
         }
