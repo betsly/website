@@ -6,6 +6,7 @@
 package at.kaindorf.Controller;
 
 import at.kaindorf.DB.DB_Access;
+import at.kaindorf.beans.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -37,7 +38,8 @@ public class BetslyServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try {
-            request.setAttribute("dbTestung", DB_Access.getInstance().getUsername());
+            //DB_Access.getInstance().insertUser(new User("test@test.test", "testi", "12345"));
+            request.setAttribute("dbTestung", DB_Access.getInstance().getUsername());            
         } catch (SQLException ex) {
             Logger.getLogger(BetslyServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
