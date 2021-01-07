@@ -34,7 +34,11 @@
         <input class="input" type="password" name="confirmation" value="" placeholder="Passwort bestätigen" required>
         </center>
         <input type="submit" value="zurück" name="back" />
+<<<<<<< HEAD
         <input type="submit" value="bestätigen" name="confirm"/>    
+=======
+        <input type="submit" value="bestätigen" name="confirmRegistration"/>
+>>>>>>> 991937cefc70704ba3579a33b094e4c7013a3517
         </form>
         
         

@@ -14,12 +14,9 @@
     </head>
     <body>
         <h1>Willkommen bei Betsly</h1>
-        <c:forEach var="user" items="${dbTestung}">
-            ${user.username}
-            ${user.email}
-            ${user.pw}
-        </c:forEach>
-        ${test1}
+        
+        ${isLoggedIn}
+        
         <form  action="./BetslyServlet" method="POST">
             <input type="submit" value="Registrieren" name="registration"/>
             <input type="submit" value="Login" name="login" />

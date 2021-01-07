@@ -9,9 +9,25 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Login</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <form action="./BetslyServlet" method="POST">
+        
+        <center>
+            <h1 class="ü1">Login</h1>
+      
+        Email
+        </br>
+        <input class="input" type="text" name="email" value="" placeholder="betsly@gmail.com" />
+        </br> </br>
+        Passwort
+        </br>
+        <input class="input" type="password" name="password" value="" placeholder="Passwort" />
+        </center>
+        <input type="submit" value="zurück" name="back" />
+        <input type="submit" value="bestätigen" name="confirmLogin"/>
+        </form>
+        </body>
     </body>
 </html>

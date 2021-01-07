@@ -41,12 +41,9 @@ public class BetslyServlet extends HttpServlet {
         if (request.getParameter("registration") != null) {
             request.getRequestDispatcher("jRegistrationPage.jsp").forward(request, response);
         }
-        /*try {
-            //DB_Access.getInstance().insertUser(new User("test@test.test", "testi", "12345"));
-            request.setAttribute("dbTestung", DB_Access.getInstance().getUsername());            
-        } catch (SQLException ex) {
-            Logger.getLogger(BetslyServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
+        else if (request.getParameter("login") != null) {
+            request.getRequestDispatcher("jLoginPage.jsp").forward(request, response);
+        } 
         else {
             request.getRequestDispatcher("jWelcomePage.jsp").forward(request, response);
         }
@@ -77,14 +74,10 @@ public class BetslyServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException { 
+        boolean isLoggedIn = false;
         
-        
-        if (request.getParameter("login") != null) {
-            request.getRequestDispatcher("jLoginPage.jsp").forward(request, response);
-        }       
-        if (request.getParameter("confirm") != null) {
-            
+        if (request.getParameter("confirmRegistration") != null) {   
             String username = request.getParameter("username");
             String passwort = request.getParameter("password");
             String email = request.getParameter("email");
@@ -94,9 +87,22 @@ public class BetslyServlet extends HttpServlet {
             } catch (SQLException ex) {
                 ex.toString();
             }
-            
         }
-
+        else if(request.getParameter("confirmLogin") != null){
+            String password = request.getParameter("password");
+            String email = request.getParameter("email");
+            int pwCompare = -1;
+            try {
+                 pwCompare = DB_Access.getInstance().getPasswordByEmail(email);
+            } catch (SQLException ex) {
+                Logger.getLogger(BetslyServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if(password.hashCode() == pwCompare){
+                isLoggedIn = true;
+            }
+        }
+        
+        request.setAttribute("isLoggedIn", isLoggedIn);
         processRequest(request, response);
     }
 
