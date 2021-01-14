@@ -10,11 +10,7 @@
 }
 
 input {
-<<<<<<< HEAD
-  width: 100%;
-=======
   width: 50%;
->>>>>>> Jiazhou
   padding: 12px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -70,8 +66,4 @@ input[type=submit] {
   position: relative;
   left: -35px;
   content: "X";
-<<<<<<< HEAD
-=======
->>>>>>> Stashed changes
->>>>>>> Jiazhou
 }
