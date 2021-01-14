@@ -5,6 +5,7 @@
  */
 package at.kaindorf.DB;
 
+import at.kaindorf.beans.BetGroup;
 import at.kaindorf.beans.User;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,6 +28,9 @@ public class DB_Access {
     private final String insertUserString = "INSERT INTO user_account (username, password, email) "
             + "VALUES ( ? , ? , ?);";
     private PreparedStatement insertUserPrStat = null;
+    private final String createGroupString = "INSERT INTO user_account (username, password, email) "
+            + "VALUES ( ? , ? , ?);";
+    private PreparedStatement createGroupPrStat = null;
 
     public static DB_Access getInstance() throws SQLException {
         if (theInstance == null) {
@@ -80,4 +84,22 @@ public class DB_Access {
         }
         return password != "" ? Integer.parseInt(password) : -1;
     }
+    
+    public List<BetGroup> getJoinedGroups(String email){
+        List<BetGroup> joinedGroups = new ArrayList<>();  
+        
+        return joinedGroups;
+    }
+    
+//    public boolean createGroup(String email){
+//        int numDataSets = insertUserPrStat.executeUpdate();
+//        return numDataSets > 0;
+//    }
+//    
+//    public boolean joinGroup(String email){
+//        int numDataSets = insertUserPrStat.executeUpdate();
+//        return numDataSets > 0;
+//    }
+    
+    
 }

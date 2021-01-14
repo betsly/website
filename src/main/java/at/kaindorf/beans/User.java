@@ -5,6 +5,7 @@
  */
 package at.kaindorf.beans;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -15,6 +16,7 @@ public class User {
     private String email;
     private String username;
     private String pw;
+    private List<BetGroup> joinedGroups;
 
     public User() {
     }
@@ -25,6 +27,14 @@ public class User {
         this.pw = pw;
     }
 
+    public List<BetGroup> getJoinedGroups() {
+        return joinedGroups;
+    }
+
+    public void setJoinedGroups(List<BetGroup> joinedGroups) {
+        this.joinedGroups = joinedGroups;
+    }
+    
     public String getEmail() {
         return email;
     }
