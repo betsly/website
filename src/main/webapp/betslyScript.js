@@ -5,7 +5,7 @@ function validate() {
     let success = false;
 
     if (psw1 == psw2) {
-        
+        success = true;
     }
 
     return success;

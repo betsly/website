@@ -14,7 +14,7 @@
         <title>Registrieren</title>
     </head>
     <body style="background-color: #186C1D">
-        <form action="./BetslyServlet" method="POST" onsubmit="return validate()">
+        <form action="./BetslyServlet" method="POST" onsubmit="return validate();">
 
             <center>
                 <h1 class="ü1">REGISTRIEREN</h1>
@@ -29,9 +29,9 @@
                 </br> </br>
                 Passwort
                 </br>
-                <input class="input" type="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" value="" placeholder="Passwort" required>
+                <input class="input" type="password" id="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" value="" placeholder="Passwort" required>
                 </br> </br>
-                <input class="input" type="password" name="confirmation" value="" placeholder="Passwort bestätigen" required>
+                <input class="input" type="password" name="confirmation" id="confirmation" value="" placeholder="Passwort bestätigen" required>
                 <input type="submit" value="zurück" name="back" />
                 <input type="submit" value="bestätigen" name="confirmRegistration"/>
             </center>
