@@ -32,8 +32,8 @@
                 <input class="input" type="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" value="" placeholder="Passwort" required>
                 </br> </br>
                 <input class="input" type="password" name="confirmation" value="" placeholder="Passwort bestätigen" required>
-            <input type="submit" value="zurück" name="back" />
-            <input type="submit" value="bestätigen" name="confirmRegistration"/>
+                <input type="submit" value="zurück" name="back" />
+                <input type="submit" value="bestätigen" name="confirmRegistration"/>
             </center>
         </form>
     </body>
