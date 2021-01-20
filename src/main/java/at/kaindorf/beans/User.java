@@ -16,7 +16,7 @@ public class User {
     private String email;
     private String username;
     private String pw;
-    private List<BetGroup> joinedGroups;
+    private List<Group> joinedGroups;
 
     public User() {
     }
@@ -27,11 +27,11 @@ public class User {
         this.pw = pw;
     }
 
-    public List<BetGroup> getJoinedGroups() {
+    public List<Group> getJoinedGroups() {
         return joinedGroups;
     }
 
-    public void setJoinedGroups(List<BetGroup> joinedGroups) {
+    public void setJoinedGroups(List<Group> joinedGroups) {
         this.joinedGroups = joinedGroups;
     }
     

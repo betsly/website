@@ -5,11 +5,13 @@
  */
 package at.kaindorf.Controller;
 
+import at.kaindorf.Bl.JWT;
 import at.kaindorf.DB.DB_Access;
+import at.kaindorf.beans.Group;
 import at.kaindorf.beans.User;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -24,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "BetslyServlet", urlPatterns = {"/BetslyServlet"})
 public class BetslyServlet extends HttpServlet {
-
+    String jwtUser = "";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -74,9 +76,7 @@ public class BetslyServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException { 
-        boolean isLoggedIn = false;
-        
+            throws ServletException, IOException {         
         if (request.getParameter("confirmRegistration") != null) {   
             String username = request.getParameter("username");
             String passwort = request.getParameter("password");
@@ -93,16 +93,26 @@ public class BetslyServlet extends HttpServlet {
             String email = request.getParameter("email");
             int pwCompare = -1;
             try {
-                 pwCompare = DB_Access.getInstance().getPasswordByEmail(email);
+                pwCompare = DB_Access.getInstance().getPasswordByEmail(email);
             } catch (SQLException ex) {
                 Logger.getLogger(BetslyServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
             if(password.hashCode() == pwCompare){
-                isLoggedIn = true;
+                jwtUser = JWT.createJWT(email, email, "login-success", 1000000000);
+            }
+        }
+        else if(request.getParameter("createGroup") != null){
+            try {
+                //boolean test = DB_Access.getInstance().joinGroup("Sarahs gruppe", "das ist die beschreibung yolo swag", JWT.decodeJWT(jwtUser).getId());
+                //boolean test = DB_Access.getInstance().createGroup("Sarahs gruppe", JWT.decodeJWT(jwtUser).getId());
+                List<Group> test = DB_Access.getInstance().getJoinedGroups("Sarahs gruppe");
+                request.setAttribute("test", test);
+            } catch (SQLException ex) {
+                Logger.getLogger(BetslyServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         
-        request.setAttribute("isLoggedIn", isLoggedIn);
+        request.setAttribute("jwtUser", jwtUser);
         processRequest(request, response);
     }
 
