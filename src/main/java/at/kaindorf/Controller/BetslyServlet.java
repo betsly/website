@@ -26,7 +26,12 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "BetslyServlet", urlPatterns = {"/BetslyServlet"})
 public class BetslyServlet extends HttpServlet {
-    String jwtUser = "";
+
+    private String jwtUser = "";
+    private boolean createGroupError = false;
+    private boolean databaseError = false;
+    private boolean joinGroupError = false;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -39,16 +44,24 @@ public class BetslyServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         if (request.getParameter("registration") != null) {
             request.getRequestDispatcher("jRegistrationPage.jsp").forward(request, response);
-        }
-        else if (request.getParameter("login") != null) {
+        } else if (request.getParameter("login") != null) {
             request.getRequestDispatcher("jLoginPage.jsp").forward(request, response);
-        } 
-        else {
+        } else if (request.getParameter("createGroupForm") != null) {
+            request.getRequestDispatcher("jCreateGroupPage.jsp").forward(request, response);
+        } else if (request.getParameter("joinGroupForm") != null) {
+            request.getRequestDispatcher("jJoinGroupPage.jsp").forward(request, response);
+        } else {
+            try {
+                request.setAttribute("jwtUser", JWT.decodeJWT(jwtUser).getId());
+            } catch (IllegalArgumentException e) {
+                request.setAttribute("jwtUser", null);
+            }
             request.getRequestDispatcher("jWelcomePage.jsp").forward(request, response);
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -76,43 +89,76 @@ public class BetslyServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {         
-        if (request.getParameter("confirmRegistration") != null) {   
+            throws ServletException, IOException {
+        if (request.getParameter("confirmRegistration") != null) {
             String username = request.getParameter("username");
             String passwort = request.getParameter("password");
             String email = request.getParameter("email");
-            
+
             try {
                 DB_Access.getInstance().insertUser(new User(email, username, passwort));
             } catch (SQLException ex) {
-                ex.toString();
+                databaseError = true;
             }
-        }
-        else if(request.getParameter("confirmLogin") != null){
+        } else if (request.getParameter("confirmLogin") != null) {
             String password = request.getParameter("password");
             String email = request.getParameter("email");
             int pwCompare = -1;
             try {
                 pwCompare = DB_Access.getInstance().getPasswordByEmail(email);
             } catch (SQLException ex) {
-                Logger.getLogger(BetslyServlet.class.getName()).log(Level.SEVERE, null, ex);
+                databaseError = true;
             }
-            if(password.hashCode() == pwCompare){
+            if (password.hashCode() == pwCompare) {
                 jwtUser = JWT.createJWT(email, email, "login-success", 1000000000);
             }
-        }
-        else if(request.getParameter("createGroup") != null){
+        } else if (request.getParameter("createGroup") != null) {
             try {
-                //boolean test = DB_Access.getInstance().joinGroup("Sarahs gruppe", "das ist die beschreibung yolo swag", JWT.decodeJWT(jwtUser).getId());
+                if ((request.getParameter("createGroupName") != null || !request.getParameter("createGroupName").trim().isEmpty())
+                        && (request.getParameter("createGroupDes") != null || !request.getParameter("createGroupDes").trim().isEmpty())) {
+                    DB_Access.getInstance().createGroup(request.getParameter("createGroupName"), request.getParameter("createGroupDes"), JWT.decodeJWT(jwtUser).getId());
+                    createGroupError = false;
+                }
                 //boolean test = DB_Access.getInstance().createGroup("Sarahs gruppe", JWT.decodeJWT(jwtUser).getId());
-                List<Group> test = DB_Access.getInstance().getJoinedGroups("Sarahs gruppe");
-                request.setAttribute("test", test);
+                //List<Group> test = DB_Access.getInstance().getJoinedGroups("Sarahs gruppe");
+                //request.setAttribute("test", test);
             } catch (SQLException ex) {
-                Logger.getLogger(BetslyServlet.class.getName()).log(Level.SEVERE, null, ex);
+                databaseError = true;
+            } catch (IllegalArgumentException e) {
+                createGroupError = true;
             }
+        } else if (request.getParameter("joinGroup") != null) {
+            if (request.getParameter("joinGroupName") != null || !request.getParameter("joinGroupName").trim().isEmpty()) {
+                try {
+                    DB_Access.getInstance().joinGroup(request.getParameter("joinGroupName"), JWT.decodeJWT(jwtUser).getId());
+                } catch (SQLException ex) {
+                    databaseError = true;
+                } catch (IllegalArgumentException e) {
+                    joinGroupError = true;
+                }
+            }
+
+        } else if (request.getParameter("logout") != null) {
+            jwtUser = "";
+        } else if (request.getParameter("showGroups") != null) {
+            try {
+                    List<Group> groups = DB_Access.getInstance().getJoinedGroups(JWT.decodeJWT(jwtUser).getId());
+                    request.setAttribute("joinedGroups", groups);
+                } catch (SQLException ex) {
+                    databaseError = true;
+                } catch (IllegalArgumentException e) {
+                    joinGroupError = true;
+                }
+        } 
+        else {
+            createGroupError = false;
+            databaseError = false;
+            joinGroupError = false;
         }
-        
-        request.setAttribute("jwtUser", jwtUser);
+
+        request.setAttribute("createGroupError", createGroupError);
+        request.setAttribute("databaseError", databaseError);
+        request.setAttribute("joinGroupError", joinGroupError);
         processRequest(request, response);
     }
 

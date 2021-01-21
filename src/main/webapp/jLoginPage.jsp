@@ -25,7 +25,7 @@
         </br>
         <input class="input" type="password" name="password" value="" placeholder="Passwort" />
         </center>
-        <input type="submit" value="zurück" name="back" />
+        <input type="submit" value="zurück" name="backLogin" />
         <input type="submit" value="bestätigen" name="confirmLogin"/>
         </form>
         </body>
