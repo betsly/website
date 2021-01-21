@@ -99,7 +99,7 @@ public class DB_Access {
         List<Group> joinedGroups = new ArrayList<>();
         String sql = "SELECT public.\"group\".group_id, name, description\n"
                 + "FROM public.\"group\" INNER JOIN public.\"group_user\" ON public.\"group\".group_id = public.\"group_user\".group_id\n"
-                + "WHERE user_id = 'test@test.test';";
+                + "WHERE user_id = '" + email + "';";
         Statement prep = db.getStatement();
         ResultSet rs = prep.executeQuery(sql);
         while (rs.next()) {
