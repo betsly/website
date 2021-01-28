@@ -31,8 +31,8 @@ public class DB_Access {
             + "VALUES ( ? , ? , ?);";
 
     private PreparedStatement insertGroupPrStat = null;
-    private final String insertGroupString = "INSERT INTO public.\"group\" (description, name) "
-            + "VALUES ( ? , ?);";
+    private final String insertGroupString = "INSERT INTO public.\"group\" (description, name, password) "
+            + "VALUES ( ? , ?, ?);";
 
     private PreparedStatement insertGroupOwnerPrStat = null;
     private final String insertGroupOwnerString = "INSERT INTO group_owner (owner_id, group_id) "
@@ -97,7 +97,7 @@ public class DB_Access {
 
     public List<Group> getJoinedGroups(String email) throws SQLException {
         List<Group> joinedGroups = new ArrayList<>();
-        String sql = "SELECT public.\"group\".group_id, name, description\n"
+        String sql = "SELECT public.\"group\".group_id, name, description, password\n"
                 + "FROM public.\"group\" INNER JOIN public.\"group_user\" ON public.\"group\".group_id = public.\"group_user\".group_id\n"
                 + "WHERE user_id = '" + email + "';";
         Statement prep = db.getStatement();
@@ -106,18 +106,20 @@ public class DB_Access {
             int group_id = rs.getInt("group_id");
             String group_name = rs.getString("name");
             String description = rs.getString("description");
-            joinedGroups.add(new Group(group_id, group_name, description));
+            String password = rs.getString("password");
+            joinedGroups.add(new Group(group_id, group_name, description, password));
         }
         return joinedGroups;
     }
 
-    public boolean createGroup(String name, String description, String userID) throws SQLException {
+    public boolean createGroup(String name, String description, String password, String userID) throws SQLException {
         //create group entry
         if (insertGroupPrStat == null) {
             insertGroupPrStat = db.getConnection().prepareStatement(insertGroupString);
         }
         insertGroupPrStat.setString(1, description);
         insertGroupPrStat.setString(2, name);
+        insertGroupPrStat.setString(3, password);
         int numDataSets = insertGroupPrStat.executeUpdate();
         if (numDataSets < 0) {
             return false;
@@ -167,14 +169,15 @@ public class DB_Access {
         int numDataSets = insertGroupUserPrStat.executeUpdate();
         return numDataSets > 0;
     }
-
-//    public boolean createGroup(String email){
-//        int numDataSets = insertUserPrStat.executeUpdate();
-//        return numDataSets > 0;
-//    }
-//    
-//    public boolean joinGroup(String email){
-//        int numDataSets = insertUserPrStat.executeUpdate();
-//        return numDataSets > 0;
-//    }
+    
+    public int getPasswordByGroupName(String groupName) throws SQLException{
+        String password = "";
+        String sql = "SELECT password FROM public.\"group\" WHERE name = \'" + groupName + "\';";
+        Statement prep = db.getStatement();
+        ResultSet rs = prep.executeQuery(sql);
+        while (rs.next()) {
+            password = rs.getString("password");
+        }
+        return password != "" ? Integer.parseInt(password) : -1;
+    }
 }

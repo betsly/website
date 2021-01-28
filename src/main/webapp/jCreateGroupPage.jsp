@@ -16,6 +16,7 @@
         
         <form  action="./BetslyServlet" method="POST">
             <input type="text" name="createGroupName" value="" placeholder="Name"/>
+            <input type="text" name="createGroupPassword" value="" placeholder="Password"/>
             <input type="text" name="createGroupDes" value="" placeholder="Beschreibung"/>
             <input type="submit" value="Gruppe erstellen" name="createGroup" />
             <input type="submit" value="Zurück" name="backCreate" />

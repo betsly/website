@@ -45,23 +45,33 @@ public class BetslyServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        if (request.getParameter("registration") != null) {
-            request.getRequestDispatcher("jRegistrationPage.jsp").forward(request, response);
-        } else if (request.getParameter("login") != null) {
-            request.getRequestDispatcher("jLoginPage.jsp").forward(request, response);
-        } else if (request.getParameter("createGroupForm") != null) {
-            request.getRequestDispatcher("jCreateGroupPage.jsp").forward(request, response);
-        } else if (request.getParameter("joinGroupForm") != null) {
-            request.getRequestDispatcher("jJoinGroupPage.jsp").forward(request, response);
-        } else {
-            try {
-                request.setAttribute("jwtUser", JWT.decodeJWT(jwtUser).getId());
-            } catch (IllegalArgumentException e) {
-                request.setAttribute("jwtUser", null);
-            }
-            request.getRequestDispatcher("jWelcomePage.jsp").forward(request, response);
+            // Set User
+        try {
+            request.setAttribute("jwtUser", JWT.decodeJWT(jwtUser).getId());
+        } catch (IllegalArgumentException e) {
+            request.setAttribute("jwtUser", null);
         }
 
+            // Registration 
+        if (request.getParameter("registration") != null) {
+            request.getRequestDispatcher("jRegistrationPage.jsp").forward(request, response);
+
+            // Login 
+        } else if (request.getParameter("login") != null) {
+            request.getRequestDispatcher("jLoginPage.jsp").forward(request, response);
+
+            // Create Group
+        } else if (request.getParameter("createGroupForm") != null) {
+            request.getRequestDispatcher("jCreateGroupPage.jsp").forward(request, response);
+
+            // Join Group
+        } else if (request.getParameter("joinGroupForm") != null) {
+            request.getRequestDispatcher("jJoinGroupPage.jsp").forward(request, response);
+
+            // Welcomepage
+        } else {
+            request.getRequestDispatcher("jWelcomePage.jsp").forward(request, response);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -90,6 +100,10 @@ public class BetslyServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+            //--------------
+            // Registration 
+            //--------------
         if (request.getParameter("confirmRegistration") != null) {
             String username = request.getParameter("username");
             String passwort = request.getParameter("password");
@@ -100,6 +114,10 @@ public class BetslyServlet extends HttpServlet {
             } catch (SQLException ex) {
                 databaseError = true;
             }
+
+            //--------------
+            // Login 
+            //--------------
         } else if (request.getParameter("confirmLogin") != null) {
             String password = request.getParameter("password");
             String email = request.getParameter("email");
@@ -112,21 +130,26 @@ public class BetslyServlet extends HttpServlet {
             if (password.hashCode() == pwCompare) {
                 jwtUser = JWT.createJWT(email, email, "login-success", 1000000000);
             }
+
+            //--------------
+            // create Group 
+            //--------------
         } else if (request.getParameter("createGroup") != null) {
             try {
                 if ((request.getParameter("createGroupName") != null || !request.getParameter("createGroupName").trim().isEmpty())
                         && (request.getParameter("createGroupDes") != null || !request.getParameter("createGroupDes").trim().isEmpty())) {
-                    DB_Access.getInstance().createGroup(request.getParameter("createGroupName"), request.getParameter("createGroupDes"), JWT.decodeJWT(jwtUser).getId());
+                    DB_Access.getInstance().createGroup(request.getParameter("createGroupName"), request.getParameter("createGroupDes"), request.getParameter("createGroupPassword"), JWT.decodeJWT(jwtUser).getId());
                     createGroupError = false;
                 }
-                //boolean test = DB_Access.getInstance().createGroup("Sarahs gruppe", JWT.decodeJWT(jwtUser).getId());
-                //List<Group> test = DB_Access.getInstance().getJoinedGroups("Sarahs gruppe");
-                //request.setAttribute("test", test);
             } catch (SQLException ex) {
                 databaseError = true;
             } catch (IllegalArgumentException e) {
                 createGroupError = true;
             }
+
+            //--------------
+            // join Group 
+            //--------------
         } else if (request.getParameter("joinGroup") != null) {
             if (request.getParameter("joinGroupName") != null || !request.getParameter("joinGroupName").trim().isEmpty()) {
                 try {
@@ -138,18 +161,29 @@ public class BetslyServlet extends HttpServlet {
                 }
             }
 
+            //--------------
+            // Logout 
+            //--------------
         } else if (request.getParameter("logout") != null) {
             jwtUser = "";
+
+            //--------------
+            // show Group 
+            //--------------
         } else if (request.getParameter("showGroups") != null) {
             try {
-                    List<Group> groups = DB_Access.getInstance().getJoinedGroups(JWT.decodeJWT(jwtUser).getId());
-                    request.setAttribute("joinedGroups", groups);
-                } catch (SQLException ex) {
-                    databaseError = true;
-                } catch (IllegalArgumentException e) {
-                    joinGroupError = true;
-                }
+                List<Group> groups = DB_Access.getInstance().getJoinedGroups(JWT.decodeJWT(jwtUser).getId());
+                request.setAttribute("joinedGroups", groups);
+            } catch (SQLException ex) {
+                databaseError = true;
+            } catch (IllegalArgumentException e) {
+                joinGroupError = true;
+            }
         } 
+
+            //--------------
+            // Error Handling 
+            //--------------
         else {
             createGroupError = false;
             databaseError = false;
