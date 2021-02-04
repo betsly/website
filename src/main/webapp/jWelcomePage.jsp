@@ -25,14 +25,21 @@
             Datenbankfehler !!
         </c:if>
 
+            ${test}
+            
         <form  action="./BetslyServlet" method="POST">
             <c:if test="${jwtUser == null}">
                 <input type="submit" value="Registrieren" name="registration"/>
                 <input type="submit" value="Login" name="login" />
             </c:if>
 
+                
+            <c:if test="${jwtUser != null}">
+                <input type="submit" value="Abmelden" name="logout" />
+            </c:if>
+            
+                
             <input type="submit" value="Gruppe erstellen" name="createGroupForm" />
-            <input type="submit" value="Abmelden" name="logout" />
             <input type="submit" value="Gruppe beitreten" name="joinGroupForm" />
             <input type="submit" value="anzeigen Gruppen" name="showGroups" />
 
