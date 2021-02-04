@@ -18,6 +18,7 @@
         </c:if>
         <form  action="./BetslyServlet" method="POST">
             <input type="text" name="joinGroupName" value="" placeholder="Name"/>
+            <input type="text" name="joinGroupPW" value="" placeholder="Password"/>
             <input type="submit" value="Gruppe beitreten" name="joinGroup" />
             <input type="submit" value="Zurück" name="backJoin" />
         </form>

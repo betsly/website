@@ -119,7 +119,7 @@ public class DB_Access {
         }
         insertGroupPrStat.setString(1, description);
         insertGroupPrStat.setString(2, name);
-        insertGroupPrStat.setString(3, password);
+        insertGroupPrStat.setInt(3, password.hashCode());
         int numDataSets = insertGroupPrStat.executeUpdate();
         if (numDataSets < 0) {
             return false;

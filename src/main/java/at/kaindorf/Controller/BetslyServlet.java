@@ -12,8 +12,6 @@ import at.kaindorf.beans.User;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -130,6 +128,9 @@ public class BetslyServlet extends HttpServlet {
             if (password.hashCode() == pwCompare) {
                 jwtUser = JWT.createJWT(email, email, "login-success", 1000000000);
             }
+            else {
+                request.setAttribute("test",  pwCompare + " " + password.hashCode());
+            }
 
             //--------------
             // create Group 
@@ -151,9 +152,16 @@ public class BetslyServlet extends HttpServlet {
             // join Group 
             //--------------
         } else if (request.getParameter("joinGroup") != null) {
-            if (request.getParameter("joinGroupName") != null || !request.getParameter("joinGroupName").trim().isEmpty()) {
+            if ((request.getParameter("joinGroupName") != null || !request.getParameter("joinGroupName").trim().isEmpty()) 
+                    && (request.getParameter("joinGroupPW") != null || !request.getParameter("joinGroupPW").trim().isEmpty())) {
+                String groupName = request.getParameter("joinGroupName");
+                String pw = request.getParameter("joinGroupPW");
+                int pwCompare = -1;
                 try {
-                    DB_Access.getInstance().joinGroup(request.getParameter("joinGroupName"), JWT.decodeJWT(jwtUser).getId());
+                    pwCompare = DB_Access.getInstance().getPasswordByGroupName(groupName);
+                    if(pwCompare != -1 && pwCompare == pw.hashCode()){
+                        DB_Access.getInstance().joinGroup(groupName, JWT.decodeJWT(jwtUser).getId());
+                    }
                 } catch (SQLException ex) {
                     databaseError = true;
                 } catch (IllegalArgumentException e) {
