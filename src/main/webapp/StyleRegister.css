@@ -1,19 +1,26 @@
 .ü1{
-    color:white;
+    color:#238B86;
     font-family:wagner modern;
     font-weight: bold;
-    font-size: 40px;
+    font-size: 60px;
+}
+.ü2{
+    color:#238B86;
+    font-family:wagner modern;
+    font-size: 30px;
+    font-weight: bold;
 }
 .input{
-    color:white;
-    background-color:#08520C;
+    color:#238B86;
+    background-color:#404040;
 }
 
 input {
   width: 50%;
   padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border-color:#238B86;
+  border-style: ridge;
+  border-radius: 6px;
   box-sizing: border-box;
   margin-top: 6px;
   margin-bottom: 16px;
@@ -35,7 +42,7 @@ input[type=submit] {
 #message {
   display:none;
   background: #f1f1f1;
-  color: #000;
+  color: #008b8b;
   position: relative;
   padding: 20px;
   margin-top: 10px;
