@@ -11,44 +11,19 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Welcome to Betsly</title>
+    <a>Betsly garantiert großen Wettspaß!!</a>
+    
     </head>
     <body>
-        <h1>Willkommen bei Betsly <c:if test="${jwtUser != null}">${jwtUser}</c:if></h1>     
-
-        <c:if test="${createGroupError == true}">
-            Bitte zuerst Anmelden !!
-        </c:if>
-        <c:if test="${joinGroupError == true}">
-            Bitte zuerst Anmelden !!
-        </c:if>
-        <c:if test="${databaseError == true}">
-            Datenbankfehler !!
-        </c:if>
-
-            ${test}
-            
-        <form  action="./BetslyServlet" method="POST">
+         <form  action="./BetslyServlet" method="POST">
             <c:if test="${jwtUser == null}">
                 <input type="submit" value="Registrieren" name="registration"/>
                 <input type="submit" value="Login" name="login" />
             </c:if>
 
-                
-            <c:if test="${jwtUser != null}">
-                <input type="submit" value="Abmelden" name="logout" />
-            </c:if>
-            
-                
-            <input type="submit" value="Gruppe erstellen" name="createGroupForm" />
-            <input type="submit" value="Gruppe beitreten" name="joinGroupForm" />
-            <input type="submit" value="anzeigen Gruppen" name="showGroups" />
-
-            <c:if test="${joinedGroups != null}">
-                <c:forEach var="group" items="${joinedGroups}">
-                    <br>${group}
-                </c:forEach>
-            </c:if>
-
+         
+        
         </form>
+       
     </body>
 </html>
