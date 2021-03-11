@@ -14,7 +14,7 @@
         <title>Registrieren</title>
     </head>
     <body style="background-color: #404040">
-        <form action="./BetslyServlet" method="POST" onsubmit="return validate();">
+        <form action="./BetslyServlet" method="POST" onsubmit="return validateRegistration();">
 
             <center>
                 <h1 class="ü1">REGISTRIEREN</h1>
