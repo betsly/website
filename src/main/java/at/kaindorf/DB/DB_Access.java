@@ -42,6 +42,10 @@ public class DB_Access {
     private final String insertGroupUserString = "INSERT INTO group_user (user_id, group_id) "
             + "VALUES ( ? , ?);";
 
+    private PreparedStatement insertCountriesPrStat = null;
+    private final String insertCountrieString = "INSERT INTO country (country) "
+            + "VALUES ( ? );";
+
     public static DB_Access getInstance() throws SQLException {
         if (theInstance == null) {
             theInstance = new DB_Access();
@@ -169,8 +173,8 @@ public class DB_Access {
         int numDataSets = insertGroupUserPrStat.executeUpdate();
         return numDataSets > 0;
     }
-    
-    public int getPasswordByGroupName(String groupName) throws SQLException{
+
+    public int getPasswordByGroupName(String groupName) throws SQLException {
         String password = "";
         String sql = "SELECT password FROM public.\"group\" WHERE name = \'" + groupName + "\';";
         Statement prep = db.getStatement();
@@ -179,5 +183,19 @@ public class DB_Access {
             password = rs.getString("password");
         }
         return password != "" ? Integer.parseInt(password) : -1;
+    }
+
+    public boolean writeCountries(List<String> countries) throws SQLException {
+        for (String country : countries) {
+            if (insertCountriesPrStat == null) {
+                insertCountriesPrStat = db.getConnection().prepareStatement(insertCountrieString);
+            }
+            insertCountriesPrStat.setString(1, country);
+            int numDataSets = insertCountriesPrStat.executeUpdate();
+            if (numDataSets < 0) {
+                return false;
+            }
+        }   
+        return true;
     }
 }

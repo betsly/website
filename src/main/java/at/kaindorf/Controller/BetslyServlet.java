@@ -9,9 +9,16 @@ import at.kaindorf.Bl.JWT;
 import at.kaindorf.DB.DB_Access;
 import at.kaindorf.beans.Group;
 import at.kaindorf.beans.User;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -39,21 +46,54 @@ public class BetslyServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+    
+    
+    
+    @Override
+    public void init(ServletConfig config)
+            throws ServletException {
+        super.init(config); //To change body of generated methods, choose Tools | Templates.
+        
+        //Country Liste erstellen für DB
+//        File file = Paths.get(config.getServletContext().getRealPath("/fifa_countries_audience_csv.csv")).toFile();
+//        FileReader fr;
+//        try {
+//            fr = new FileReader(file);
+//            BufferedReader br = new BufferedReader(fr);
+//            
+//            List<String> c = new ArrayList<>();
+//            
+//            String line = "";
+//            br.readLine();
+//            while((line = br.readLine()) != null){
+//                String[] tokens = line.split(",");
+//                c.add(tokens[0]);
+//            }
+//            
+//            DB_Access.getInstance().writeCountries(c);
+//        } catch (FileNotFoundException ex) {
+//            
+//        } catch (IOException ex) {
+//            
+//        } catch (SQLException ex) {
+//            
+//        }
+        
+    }
 
-            // Set User
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        
+        // Set User
         try {
             request.setAttribute("jwtUser", JWT.decodeJWT(jwtUser).getId());
         } catch (IllegalArgumentException e) {
             request.setAttribute("jwtUser", null);
         }
-
-            // Registration 
+        // Registration 
         if (request.getParameter("registration") != null) {
             request.getRequestDispatcher("jRegistrationPage.jsp").forward(request, response);
-
+            
             // Login 
         } else if (request.getParameter("login") != null) {
             request.getRequestDispatcher("jLoginPage.jsp").forward(request, response);
@@ -188,7 +228,6 @@ public class BetslyServlet extends HttpServlet {
                 joinGroupError = true;
             }
         } 
-
             //--------------
             // Error Handling 
             //--------------
