@@ -17,9 +17,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Group {
-    private int group_id;
-    private String group_name;    
-    private String description;
-    private String password;
+public class BetGroupPhase {
+    private int id;
+    private String name;
+    private Country counrty1;
+    private Country counrty2;
+    private Country counrty3;
+    private Country counrty4;
 }

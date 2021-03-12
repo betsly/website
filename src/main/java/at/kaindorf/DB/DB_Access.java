@@ -5,6 +5,7 @@
  */
 package at.kaindorf.DB;
 
+import at.kaindorf.beans.Country;
 import at.kaindorf.beans.Group;
 import at.kaindorf.beans.User;
 import java.sql.PreparedStatement;
@@ -45,6 +46,23 @@ public class DB_Access {
     private PreparedStatement insertCountriesPrStat = null;
     private final String insertCountrieString = "INSERT INTO country (country) "
             + "VALUES ( ? );";
+
+    private PreparedStatement getPasswordByEmailPrStat;
+    private final String getPasswordByEmailString = "SELECT password FROM user_account WHERE email = ?;";
+    
+    private PreparedStatement getJoinedGroupsPrStat;
+    private String getJoinedGroupsString = "SELECT public.\"group\".group_id, name, description, password\n"
+                + "FROM public.\"group\" INNER JOIN public.\"group_user\" ON public.\"group\".group_id = public.\"group_user\".group_id\n"
+                + "WHERE user_id = ?;";
+    
+    private PreparedStatement createGroupPrStat;
+    private String createGroupString = "SELECT group_id FROM public.\"group\" WHERE name = ?;";
+    
+    private PreparedStatement joinGroupPrStat;
+    private String joinGroupString = "SELECT group_id FROM public.\"group\" WHERE name = ?;";
+    
+    private PreparedStatement getPasswordByGroupNamePrStat;
+    private final String getPasswordByGroupNameString = "SELECT password FROM public.\"group\" WHERE name = ?;";
 
     public static DB_Access getInstance() throws SQLException {
         if (theInstance == null) {
@@ -90,22 +108,24 @@ public class DB_Access {
 
     public int getPasswordByEmail(String email) throws SQLException {
         String password = "";
-        String sql = "SELECT password FROM user_account WHERE email = \'" + email + "\';";
-        Statement prep = db.getStatement();
-        ResultSet rs = prep.executeQuery(sql);
+        if (getPasswordByEmailPrStat == null) {
+            getPasswordByEmailPrStat = db.getConnection().prepareStatement(getPasswordByEmailString);
+        }
+        getPasswordByEmailPrStat.setString(1, email);
+        ResultSet rs = getPasswordByEmailPrStat.executeQuery();
         while (rs.next()) {
             password = rs.getString("password");
         }
-        return password != "" ? Integer.parseInt(password) : -1;
+        return !password.equals("") ? Integer.parseInt(password) : -1;
     }
 
     public List<Group> getJoinedGroups(String email) throws SQLException {
         List<Group> joinedGroups = new ArrayList<>();
-        String sql = "SELECT public.\"group\".group_id, name, description, password\n"
-                + "FROM public.\"group\" INNER JOIN public.\"group_user\" ON public.\"group\".group_id = public.\"group_user\".group_id\n"
-                + "WHERE user_id = '" + email + "';";
-        Statement prep = db.getStatement();
-        ResultSet rs = prep.executeQuery(sql);
+        if (getJoinedGroupsPrStat == null) {
+            getJoinedGroupsPrStat = db.getConnection().prepareStatement(getJoinedGroupsString);
+        }
+        getJoinedGroupsPrStat.setString(1, email);
+        ResultSet rs = getJoinedGroupsPrStat.executeQuery();
         while (rs.next()) {
             int group_id = rs.getInt("group_id");
             String group_name = rs.getString("name");
@@ -130,9 +150,11 @@ public class DB_Access {
         }
 
         //create group_owner entry
-        String sql = "SELECT group_id FROM public.\"group\" WHERE name = \'" + name + "\';";
-        Statement prep = db.getStatement();
-        ResultSet rs = prep.executeQuery(sql);
+        if (createGroupPrStat == null) {
+            createGroupPrStat = db.getConnection().prepareStatement(createGroupString);
+        }
+        createGroupPrStat.setString(1, name);
+        ResultSet rs = createGroupPrStat.executeQuery();
         int group_id = 1;
         while (rs.next()) {
             group_id = Integer.parseInt(rs.getString("group_id"));
@@ -158,9 +180,11 @@ public class DB_Access {
     }
 
     public boolean joinGroup(String name, String userID) throws SQLException {
-        String sql = "SELECT group_id FROM public.\"group\" WHERE name = \'" + name + "\';";
-        Statement prep = db.getStatement();
-        ResultSet rs = prep.executeQuery(sql);
+        if (joinGroupPrStat == null) {
+            joinGroupPrStat = db.getConnection().prepareStatement(joinGroupString);
+        }
+        joinGroupPrStat.setString(1, name);
+        ResultSet rs = joinGroupPrStat.executeQuery();
         int group_id = 1;
         while (rs.next()) {
             group_id = Integer.parseInt(rs.getString("group_id"));
@@ -176,9 +200,11 @@ public class DB_Access {
 
     public int getPasswordByGroupName(String groupName) throws SQLException {
         String password = "";
-        String sql = "SELECT password FROM public.\"group\" WHERE name = \'" + groupName + "\';";
-        Statement prep = db.getStatement();
-        ResultSet rs = prep.executeQuery(sql);
+        if (getPasswordByGroupNamePrStat == null) {
+            getPasswordByGroupNamePrStat = db.getConnection().prepareStatement(getPasswordByGroupNameString);
+        }
+        getPasswordByGroupNamePrStat.setString(1, groupName);
+        ResultSet rs = getPasswordByGroupNamePrStat.executeQuery();
         while (rs.next()) {
             password = rs.getString("password");
         }
@@ -195,7 +221,20 @@ public class DB_Access {
             if (numDataSets < 0) {
                 return false;
             }
-        }   
+        }
         return true;
+    }
+    
+    public List<Country> getCountries() throws SQLException{
+        List<Country> counries = new ArrayList<>();
+        String sql = "SELECT * FROM country;";
+        Statement prep = db.getStatement();
+        ResultSet rs = prep.executeQuery(sql);
+        while (rs.next()) {
+            int id = rs.getInt("country_id");
+            String name = rs.getString("country");
+            counries.add(new Country(id, name));
+        }
+        return counries;
     }
 }

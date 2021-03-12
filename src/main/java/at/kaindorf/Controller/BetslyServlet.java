@@ -18,6 +18,8 @@ import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -106,10 +108,15 @@ public class BetslyServlet extends HttpServlet {
         } else if (request.getParameter("joinGroupForm") != null) {
             request.getRequestDispatcher("jJoinGroupPage.jsp").forward(request, response);
 
+            // Create Bet GroupPhase
+        } else if(request.getParameter("createGroupPhaseBetForm") != null){
+            request.getRequestDispatcher("jCreateBetGroupPhasePage.jsp").forward(request, response);
+            
             // Welcomepage
         } else {
             request.getRequestDispatcher("jWelcomePage.jsp").forward(request, response);
         }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -165,7 +172,7 @@ public class BetslyServlet extends HttpServlet {
             } catch (SQLException ex) {
                 databaseError = true;
             }
-            if (password.hashCode() == pwCompare) {
+            if (password.hashCode() == pwCompare && pwCompare != -1) {
                 jwtUser = JWT.createJWT(email, email, "login-success", 1000000000);
             }
             else {
@@ -227,7 +234,19 @@ public class BetslyServlet extends HttpServlet {
             } catch (IllegalArgumentException e) {
                 joinGroupError = true;
             }
-        } 
+            
+            //--------------
+            // create Bet Form (Group Phase) 
+            //--------------
+        } else if(request.getParameter("createGroupPhaseBetForm") != null){
+            try {
+                request.setAttribute("countries", DB_Access.getInstance().getCountries());
+            } catch (SQLException ex) {
+                databaseError = true;
+            }
+        } else if(request.getParameter("createBetGroupPhase") != null){
+            
+        }
             //--------------
             // Error Handling 
             //--------------

@@ -14,12 +14,10 @@ import lombok.NoArgsConstructor;
  * @author nico
  */
 
-@NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Group {
-    private int group_id;
-    private String group_name;    
-    private String description;
-    private String password;
+@NoArgsConstructor
+public class Country {
+    private int id;
+    private String name;
 }
