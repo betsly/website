@@ -26,7 +26,9 @@ public class User {
     private List<Group> joinedGroups;    
 
     public User(String email, String username, String password) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.email = email;
+        this.pw = password;
+        this.username = username;
     }
 
 }

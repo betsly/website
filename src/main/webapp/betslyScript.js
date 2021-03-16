@@ -1,8 +1,8 @@
 function validateRegistration() {
-    let psw1 = document.getElementById("inputPassword").value;
-    let psw2 = document.getElementById("inputPWconfirmation").value;
-    let username = document.getElementById("inputUsername").value;
-    let email = document.getElementById("inputEmail").value;
+    let psw1 = document.getElementById("Passwort").value;
+    let psw2 = document.getElementById("Passwort_besttigen").value;
+    let username = document.getElementById("Username").value;
+    let email = document.getElementById("Email_Adresse").value;
 
       if (!username) {
         return false;
@@ -20,8 +20,8 @@ function validateRegistration() {
 };
 
 function validateLogin() {
-    let email = document.getElementById(("email")).value;
-    let password = document.getElementById("password").value;
+    let email = document.getElementById(("Username")).value;
+    let password = document.getElementById("Passwort").value;
     
     if(!email) {
         alert("Please fill out all the fields!");

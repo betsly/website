@@ -1,11 +1,21 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 16.03.2021, 15:14:13
+    Author     : nico
+*/
+
 .mediaViewInfo {
-    --web-view-name: Registrieren;
-    --web-view-id: Registrieren;
+    --web-view-name: Login;
+    --web-view-id: Login;
     --web-scale-on-resize: true;
     --web-enable-deep-linking: true;
 }
 :root {
-    --web-view-ids: Registrieren;
+    --web-view-ids: Login;
 }
 * {
     margin: 0;
@@ -13,14 +23,14 @@
     box-sizing: border-box;
     border: none;
 }
-#Registrieren {
+#Login {
     position: absolute;
     width: 1920px;
     height: 1080px;
     background-color: rgba(43,49,52,1);
     overflow: hidden;
-    --web-view-name: Registrieren;
-    --web-view-id: Registrieren;
+    --web-view-name: Login;
+    --web-view-id: Login;
     --web-scale-on-resize: true;
     --web-enable-deep-linking: true;
 }
@@ -247,7 +257,6 @@
     left: 0px;
     top: 0px;
     overflow: visible;
-    
 }
 #Rectangle_2233_bb {
     fill: rgba(43,49,52,1);
@@ -336,7 +345,7 @@
     height: 7.698px;
     position: absolute;
     overflow: visible;
-    transform: translate(661.078px, 599.942px) matrix(1,0,0,1,-74.4064,74.4064) rotate(-90deg);
+    transform: translate(661.079px, 599.942px) matrix(1,0,0,1,-74.4064,74.4064) rotate(-90deg);
     transform-origin: center;
 }
 #Rectangle_2234_be {
@@ -348,7 +357,7 @@
     height: 7.698px;
     position: absolute;
     overflow: visible;
-    transform: translate(661.078px, 599.942px) matrix(1,0,0,1,-74.4064,74.4064) rotate(-90deg);
+    transform: translate(661.079px, 599.942px) matrix(1,0,0,1,-74.4064,74.4064) rotate(-90deg);
     transform-origin: center;
 }
 #Group_51_bf {
@@ -796,13 +805,53 @@
     font-size: 30px;
     color: rgba(161,162,169,1);
 }
-#Organization {
+#Group_34 {
     position: absolute;
-    width: 668px;
-    height: 80px;
-    left: 626px;
-    top: 386px;
+    width: 26.923px;
+    height: 21.426px;
+    left: 1735.131px;
+    top: 45.324px;
     overflow: visible;
+}
+#Group_33 {
+    position: absolute;
+    width: 26.923px;
+    height: 21.426px;
+    left: 0px;
+    top: 0px;
+    overflow: visible;
+}
+#Group_32 {
+    position: absolute;
+    width: 26.923px;
+    height: 21.426px;
+    left: 0px;
+    top: 0px;
+    overflow: visible;
+}
+#Path_213 {
+    fill: rgba(44,177,136,1);
+}
+.Path_213 {
+    overflow: visible;
+    position: absolute;
+    width: 19.238px;
+    height: 17.101px;
+    left: 3.843px;
+    top: 4.325px;
+    transform: matrix(1,0,0,1,0,0);
+}
+#Path_214 {
+    fill: rgba(44,177,136,1);
+}
+.Path_214 {
+    overflow: visible;
+    position: absolute;
+    width: 26.923px;
+    height: 12.61px;
+    left: 0px;
+    top: 0px;
+    transform: matrix(1,0,0,1,0,0);
 }
 #Rectangle_2214 {
     fill: rgba(43,49,52,1);
@@ -813,8 +862,8 @@
     overflow: visible;
     width: 695px;
     height: 107px;
-    left: 0px;
-    top: 0px;
+    left: 626px;
+    top: 287px;
 }
 #Rectangle_2215 {
     fill: rgba(43,49,52,1);
@@ -825,53 +874,13 @@
     overflow: visible;
     width: 695px;
     height: 107px;
-    left: 0px;
-    top: 0px;
-}
-#Email_Adresse {
-    opacity: 0.5;
-    left: 80px;
-    top: 21px;
-    position: absolute;
-    overflow: visible;
-    width: 550px;
-    background-color: rgba(43,49,52,1);
-    color: rgba(212,212,212,1);
-    white-space: nowrap;
-    text-align: left;
-    font-family: FreightSans Pro;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 30px;
-}
-#Rectangle_2214_cq {
-    fill: rgba(43,49,52,1);
-}
-.Rectangle_2214_cq {
-    filter: drop-shadow(5px 5px 9px rgba(0, 0, 0, 0.161));
-    position: absolute;
-    overflow: visible;
-    width: 695px;
-    height: 107px;
     left: 626px;
-    top: 246px;
-}
-#Rectangle_2215_cr {
-    fill: rgba(43,49,52,1);
-}
-.Rectangle_2215_cr {
-    filter: drop-shadow(-5px -5px 9px rgba(113, 113, 113, 0.157));
-    position: absolute;
-    overflow: visible;
-    width: 695px;
-    height: 107px;
-    left: 626px;
-    top: 246px;
+    top: 287px;
 }
 #Username {
     opacity: 0.503;
     left: 706px;
-    top: 267px;
+    top: 308px;
     position: absolute;
     overflow: visible;
     width: 550px;
@@ -889,7 +898,7 @@
     width: 668px;
     height: 80px;
     left: 626px;
-    top: 526px;
+    top: 506px;
     overflow: visible;
 }
 #Rectangle_2231 {
@@ -919,12 +928,12 @@
 #Passwort {
     opacity: 0.496;
     left: 706px;
-    top: 547px;
+    top: 527px;
+    position: absolute;
+    overflow: visible;
     width: 550px;
     background-color: rgba(43,49,52,1);
     color: rgba(212,212,212,1);
-    position: absolute;
-    overflow: visible;
     white-space: nowrap;
     text-align: left;
     font-family: FreightSans Pro;
@@ -937,7 +946,7 @@
     width: 37.396px;
     height: 34.992px;
     left: 642.358px;
-    top: 269px;
+    top: 310px;
     overflow: visible;
 }
 #Path_216 {
@@ -948,7 +957,7 @@
     position: absolute;
     width: 18.318px;
     height: 21.019px;
-    left: 9.54px;
+    left: 9.541px;
     top: 0px;
     transform: matrix(1,0,0,1,0,0);
 }
@@ -964,21 +973,7 @@
     top: 22.714px;
     transform: matrix(1,0,0,1,0,0);
 }
-#Registrieren_c {
-    left: 711px;
-    top: 81px;
-    position: absolute;
-    overflow: visible;
-    width: 470px;
-    height: 101px;
-    text-align: center;
-    font-family: Wagner Modern;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 70px;
-    color: rgba(44,177,136,1);
-}
-#Primary_Menu_c {
+#Primary_Menu_cw {
     position: absolute;
     width: 145px;
     height: 295px;
@@ -986,10 +981,10 @@
     top: 32px;
     overflow: visible;
 }
-#Rectangle_2100_c {
+#Rectangle_2100_cx {
     fill: rgba(43,49,52,1);
 }
-.Rectangle_2100_c {
+.Rectangle_2100_cx {
     filter: drop-shadow(5px 5px 9px rgba(0, 0, 0, 0.161));
     position: absolute;
     overflow: visible;
@@ -998,10 +993,10 @@
     left: 85px;
     top: 0px;
 }
-#Rectangle_2102_c {
+#Rectangle_2102_cy {
     fill: rgba(43,49,52,1);
 }
-.Rectangle_2102_c {
+.Rectangle_2102_cy {
     filter: drop-shadow(-3px -3px 6px rgba(113, 113, 113, 0.157));
     position: absolute;
     overflow: visible;
@@ -1010,11 +1005,11 @@
     left: 85px;
     top: 0px;
 }
-#Rectangle_2101_c {
+#Rectangle_2101_cz {
     opacity: 0;
     fill: rgba(43,49,52,1);
 }
-.Rectangle_2101_c {
+.Rectangle_2101_cz {
     position: absolute;
     overflow: visible;
     width: 145px;
@@ -1079,7 +1074,14 @@
     font-size: 30px;
     color: rgba(161,162,169,1);
 }
-
+#Icon_feather-settings {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    left: 1647.562px;
+    top: 44.875px;
+    overflow: visible;
+}
 #Path_200 {
     fill: transparent;
     stroke: rgba(44,177,136,1);
@@ -1088,6 +1090,33 @@
     stroke-linecap: round;
     stroke-miterlimit: 4;
     shape-rendering: auto;
+}
+.Path_200 {
+    overflow: visible;
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    left: 7.5px;
+    top: 7.5px;
+    transform: matrix(1,0,0,1,0,0);
+}
+#Path_201 {
+    fill: transparent;
+    stroke: rgba(44,177,136,1);
+    stroke-width: 3px;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    stroke-miterlimit: 4;
+    shape-rendering: auto;
+}
+.Path_201 {
+    overflow: visible;
+    position: absolute;
+    width: 27px;
+    height: 27px;
+    left: 0px;
+    top: 0px;
+    transform: matrix(1,0,0,1,0,0);
 }
 #Primary_Button {
     position: absolute;
@@ -1098,7 +1127,7 @@
     overflow: visible;
     --web-animation: fadein 0.3s ease-out;
     --web-action-type: page;
-    --web-action-target: Login.html;
+    --web-action-target: Meine_Gruppen.html;
     cursor: pointer;
 }
 #Rounded_button {
@@ -1133,34 +1162,38 @@
     left: 0px;
     top: 0px;
 }
-#Registrieren_dg {
-    left: 64px;
+#Login_db {
+    left: 101px;
     top: 24px;
     position: absolute;
     overflow: visible;
-    width: 135px;
+    width: 550px;
+    background-color: rgba(43,49,52,1);
+    color: rgba(212,212,212,1);
     white-space: nowrap;
-    --web-animation: fadein 0.2s snap;
-    --web-action-type: page;
-    --web-action-target: Login.html;
     cursor: pointer;
-    text-align: center;
+    text-align: left;
     font-family: FreightSans Pro;
     font-style: normal;
     font-weight: bold;
     font-size: 26px;
-    background-color: rgba(43,49,52,1);
-    color: rgba(161,162,169,1);
+    --web-animation: fadein 0.2s snap;
+    --web-action-type: page;
+    --web-action-target: Meine_Gruppen.html;
 }
-#Primary_Button_dh {
+#Primary_Button_dc {
     position: absolute;
     width: 262px;
     height: 80px;
     left: 269px;
     top: 887px;
     overflow: visible;
+    --web-animation: fadein 0.3s ease-out;
+    --web-action-type: page;
+    --web-action-target: Registrieren.html;
+    cursor: pointer;
 }
-#Rounded_button_di {
+#Rounded_button_dd {
     position: absolute;
     width: 262px;
     height: 80px;
@@ -1168,10 +1201,10 @@
     top: 0px;
     overflow: visible;
 }
-#Rectangle_1_dj {
+#Rectangle_1_de {
     fill: rgba(43,49,52,1);
 }
-.Rectangle_1_dj {
+.Rectangle_1_de {
     filter: drop-shadow(5px 5px 9px rgba(0, 0, 0, 0.149));
     position: absolute;
     overflow: visible;
@@ -1180,10 +1213,10 @@
     left: 0px;
     top: 0px;
 }
-#Rectangle_2_dk {
+#Rectangle_2_df {
     fill: rgba(43,49,52,1);
 }
-.Rectangle_2_dk {
+.Rectangle_2_df {
     filter: drop-shadow(-5px -5px 9px rgba(113, 113, 113, 0.149));
     position: absolute;
     overflow: visible;
@@ -1192,83 +1225,31 @@
     left: 0px;
     top: 0px;
 }
-#Abbrechen {
-    left: 71px;
+#zurck {
+    left: 94px;
     top: 24px;
     position: absolute;
     overflow: visible;
-    width: 121px;
+    width: 550px;
+    background-color: rgba(43,49,52,1);
+    color: rgba(212,212,212,1);
     white-space: nowrap;
+    cursor: pointer;
     text-align: left;
     font-family: FreightSans Pro;
     font-style: normal;
     font-weight: bold;
-    font-size: 26px;
-    background-color: rgba(43,49,52,1);
-    color: rgba(161,162,169,1);
-}
-#Group_58 {
-    position: absolute;
-    width: 37.755px;
-    height: 26.543px;
-    left: 642px;
-    top: 412.641px;
-    overflow: visible;
-}
-#Path_226 {
-    fill: rgba(44,177,136,1);
-}
-.Path_226 {
-    overflow: visible;
-    position: absolute;
-    width: 37.755px;
-    height: 17.138px;
-    left: 0px;
-    top: 0px;
-    transform: matrix(1,0,0,1,0,0);
-}
-#Path_227 {
-    fill: rgba(44,177,136,1);
-}
-.Path_227 {
-    overflow: visible;
-    position: absolute;
-    width: 9.534px;
-    height: 13.488px;
-    left: 0px;
-    top: 6.744px;
-    transform: matrix(1,0,0,1,0,0);
-}
-#Path_228 {
-    fill: rgba(44,177,136,1);
-}
-.Path_228 {
-    overflow: visible;
-    position: absolute;
-    width: 37.5px;
-    height: 10.704px;
-    left: 0px;
-    top: 15.839px;
-    transform: matrix(1,0,0,1,0,0);
-}
-#Path_229 {
-    fill: rgba(44,177,136,1);
-}
-.Path_229 {
-    overflow: visible;
-    position: absolute;
-    width: 9.907px;
-    height: 13.488px;
-    left: 27.848px;
-    top: 6.744px;
-    transform: matrix(1,0,0,1,0,0);
+    font-size: 26px; 
+    --web-animation: fadein 0.2s snap;
+    --web-action-type: page;
+    --web-action-target: Registrieren.html;
 }
 #Group_35 {
     position: absolute;
     width: 29.194px;
     height: 35.099px;
     left: 646.865px;
-    top: 546.893px;
+    top: 526.893px;
     overflow: visible;
 }
 #Path_215 {
@@ -1294,82 +1275,37 @@
     left: 0px;
     top: 14.552px;
 }
-#event_du {
-    position: absolute;
-    width: 668px;
-    height: 80px;
-    left: 626px;
-    top: 672px;
-    overflow: visible;
-}
-#Rectangle_2231_dv {
-    fill: rgba(43,49,52,1);
-}
-.Rectangle_2231_dv {
-    filter: drop-shadow(5px 5px 9px rgba(0, 0, 0, 0.161));
+#LOGIN {
+    left: 726px;
+    top: 82px;
     position: absolute;
     overflow: visible;
-    width: 695px;
-    height: 107px;
-    left: 0px;
-    top: 0px;
+    width: 470px;
+    height: 101px;
+    text-align: center;
+    font-family: Wagner Modern;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 70px;
+    color: rgba(44,177,136,1);
 }
-#event_box_dw {
-    fill: rgba(43,49,52,1);
-}
-.event_box_dw {
-    filter: drop-shadow(-5px -5px 9px rgba(113, 113, 113, 0.157));
-    position: absolute;
-    overflow: visible;
-    width: 695px;
-    height: 107px;
-    left: 0px;
-    top: 0px;
-}
-#Passwort_besttigen {
+#Password_vergessen {
     opacity: 0.496;
-    left: 706px;
-    top: 693px;
+    left: 632px;
+    top: 616px;
     position: absolute;
     overflow: visible;
-    width: 550px;
-    background-color: rgba(43,49,52,1);
-    color: rgba(212,212,212,1);
+    width: 200px;
     white-space: nowrap;
+    --web-animation: fadein 0.3s ease-out;
+    --web-action-type: page;
+    --web-action-target: Password_wiederherstellen.html;
+    cursor: pointer;
     text-align: left;
     font-family: FreightSans Pro;
     font-style: normal;
     font-weight: normal;
-    font-size: 30px;
-}
-#Group_59 {
-    position: absolute;
-    width: 29.194px;
-    height: 35.099px;
-    left: 646.865px;
-    top: 692.893px;
-    overflow: visible;
-}
-#Path_215_dz {
-    fill: rgba(44,177,136,1);
-}
-.Path_215_dz {
-    overflow: visible;
-    position: absolute;
-    width: 20.421px;
-    height: 14.552px;
-    left: 4.367px;
-    top: 0px;
-    transform: matrix(1,0,0,1,0,0);
-}
-#Rectangle_2230_d {
-    fill: rgba(44,177,136,1);
-}
-.Rectangle_2230_d {
-    position: absolute;
-    overflow: visible;
-    width: 29.194px;
-    height: 20.547px;
-    left: 0px;
-    top: 14.552px;
+    font-size: 24px;
+    color: rgba(212,212,212,1);
+    text-decoration: underline;
 }
