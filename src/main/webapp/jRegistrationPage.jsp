@@ -299,7 +299,7 @@
                         </svg>
                     </div>
                     <div>
-                        <span><input type="submit" value="Abbrechen" name="back"id="Abbrechen" /></span>
+                        <span><input type="submit" value="Abbrechen" name="back"id="Abbrechen" onclick="window.history.back()"/></span>
                     </div>
                 </div>
                 <div id="Group_58">

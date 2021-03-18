@@ -282,7 +282,7 @@
                         </svg>
                     </div>
                     <div>
-                        <span><input type="submit" value="zurück" name="back" id="zurck" /></span>
+                        <span><input type="submit" value="zurück" name="back" id="zurck" onclick="window.history.back()"/></span>
                     </div>
                 </div>
                 <div id="Group_35">
