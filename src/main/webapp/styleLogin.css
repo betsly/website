@@ -704,62 +704,6 @@ and open the template in the editor.
     top: 0px;
     overflow: visible;
 }
-#Primary_Menu {
-    position: absolute;
-    width: 145px;
-    height: 295px;
-    left: 1639px;
-    top: 32px;
-    overflow: visible;
-}
-#Rectangle_2100 {
-    fill: rgba(43,49,52,1);
-}
-.Rectangle_2100 {
-    filter: drop-shadow(5px 5px 9px rgba(0, 0, 0, 0.161));
-    position: absolute;
-    overflow: visible;
-    width: 77px;
-    height: 77px;
-    left: 85px;
-    top: 0px;
-}
-#Rectangle_2102 {
-    fill: rgba(43,49,52,1);
-}
-.Rectangle_2102 {
-    filter: drop-shadow(-3px -3px 6px rgba(113, 113, 113, 0.157));
-    position: absolute;
-    overflow: visible;
-    width: 68px;
-    height: 68px;
-    left: 85px;
-    top: 0px;
-}
-#Rectangle_2101 {
-    opacity: 0;
-    fill: rgba(43,49,52,1);
-}
-.Rectangle_2101 {
-    position: absolute;
-    overflow: visible;
-    width: 145px;
-    height: 226px;
-    left: 0px;
-    top: 69px;
-}
-#Rectangle_2103 {
-    opacity: 0;
-    fill: rgba(43,49,52,1);
-}
-.Rectangle_2103 {
-    position: absolute;
-    overflow: visible;
-    width: 145px;
-    height: 226px;
-    left: 0px;
-    top: 69px;
-}
 #Option_1 {
     opacity: 0;
     left: 18px;

@@ -197,29 +197,8 @@
                     </div>
                 </div>
                 <img id="default-user-image" src="default-user-image.png" srcset="default-user-image.png 1x, default-user-image@2x.png 2x">
-
                 <div id="Group_8">
                     <img id="Group_7" src="Group_7.png" srcset="Group_7.png 1x, Group_7@2x.png 2x">
-
-                    </svg>
-                </div>
-                <div id="Primary_Menu" class="Primary_Menu">
-                    <svg class="Rectangle_2100">
-                    <rect id="Rectangle_2100" rx="25" ry="25" x="0" y="0" width="50" height="50">
-                    </rect>
-                    </svg>
-                    <svg class="Rectangle_2102">
-                    <rect id="Rectangle_2102" rx="25" ry="25" x="0" y="0" width="50" height="50">
-                    </rect>
-                    </svg>
-                    <svg class="Rectangle_2101">
-                    <rect id="Rectangle_2101" rx="31" ry="31" x="0" y="0" width="145" height="226">
-                    </rect>
-                    </svg>
-                    <svg class="Rectangle_2103">
-                    <rect id="Rectangle_2103" rx="31" ry="31" x="0" y="0" width="145" height="226">
-                    </rect>
-                    </svg>
                 </div>
                 <svg class="Rectangle_2214">
                 <rect id="Rectangle_2214" rx="8" ry="8" x="0" y="0" width="668" height="80">

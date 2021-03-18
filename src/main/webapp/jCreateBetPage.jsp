@@ -33,8 +33,7 @@
                 <input type="text" name="country4" value="" placeholder="Country4" list="countries_id"/> 
             </c:if>
             <input type="submit" value="einreichen" name="createBetDB" />
-            <input type="submit" value="Abbrechen" name="back" />
+            <input type="submit" value="Abbrechen" name="back" onclick="window.history.back()"/>
         </form>
-
     </body>
 </html>
