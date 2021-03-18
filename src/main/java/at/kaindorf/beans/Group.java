@@ -18,8 +18,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class Group {
-    private int group_id;
-    private String group_name;    
+    private int id;
+    private String name;    
     private String description;
     private String password;
+    private String host;
 }

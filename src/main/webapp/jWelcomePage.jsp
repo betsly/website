@@ -25,11 +25,28 @@
                 <input type="submit" value="show groups" name="showGroups" />
                 <input type="submit" value="create group" name="createGroupForm" />
                 <input type="submit" value="join group" name="joinGroupForm" />
-                <input type="submit" value="create Bet Groupphase" name="createGroupPhaseBetForm" />
             </c:otherwise>
         </c:choose>
-        ${joinedGroups}
-    </form>
 
+        <c:if test="${joinedGroups != null}">
+            <h1>Joined Groups</h1>
+            <ul id="groups">
+                <c:forEach var="group" items="${joinedGroups}">
+                    <li>
+                        <div class="groupName">
+                            <h3>${group.id}: ${group.name}</h3>
+                        </div>
+                        <details>
+                            <p>${group.description}</p>
+                            <p>Host: ${group.host}</p>
+                        </details>
+                        <c:if test="${jwtUser.equals(group.host)}">
+                            <input type="submit" value="create Bet${group.id}" name="createBetForm" />
+                        </c:if>
+                    </li>
+                </c:forEach>
+            </ul>
+        </c:if>
+    </form>
 </body>
 </html>

@@ -51,8 +51,9 @@ public class DB_Access {
     private final String getPasswordByEmailString = "SELECT password FROM user_account WHERE email = ?;";
     
     private PreparedStatement getJoinedGroupsPrStat;
-    private String getJoinedGroupsString = "SELECT public.\"group\".group_id, name, description, password\n"
+    private String getJoinedGroupsString = "SELECT public.\"group\".group_id, name, description, password, public.\"group_owner\".owner_id\n"
                 + "FROM public.\"group\" INNER JOIN public.\"group_user\" ON public.\"group\".group_id = public.\"group_user\".group_id\n"
+                + "INNER JOIN public.\"group_owner\" ON public.\"group\".group_id = public.\"group_owner\".group_id\n" 
                 + "WHERE user_id = ?;";
     
     private PreparedStatement createGroupPrStat;
@@ -63,7 +64,15 @@ public class DB_Access {
     
     private PreparedStatement getPasswordByGroupNamePrStat;
     private final String getPasswordByGroupNameString = "SELECT password FROM public.\"group\" WHERE name = ?;";
+    
+    private PreparedStatement createBetGroupPhasePrStat;
+    private final String createBetGroupPhaseString = "INSERT INTO bet_group_phase (name, group_id, country1, country2, country3, country4)"
+            + "VALUES ( ?, ?, ?, ?, ?, ? );";
 
+    private PreparedStatement createBetKOPhasePrStat;
+    private final String createBetKOPhaseString = "INSERT INTO bet_ko_phase (name, group_id, country1, country2)"
+            + "VALUES ( ?, ?, ?, ? );";
+    
     public static DB_Access getInstance() throws SQLException {
         if (theInstance == null) {
             theInstance = new DB_Access();
@@ -131,7 +140,8 @@ public class DB_Access {
             String group_name = rs.getString("name");
             String description = rs.getString("description");
             String password = rs.getString("password");
-            joinedGroups.add(new Group(group_id, group_name, description, password));
+            String ownerId = rs.getString("owner_id");
+            joinedGroups.add(new Group(group_id, group_name, description, password, ownerId));
         }
         return joinedGroups;
     }
@@ -236,5 +246,31 @@ public class DB_Access {
             counries.add(new Country(id, name));
         }
         return counries;
+    }
+    
+    public boolean createBetGroupPhase(Country[] countries, int groupId, String name) throws SQLException{
+        if (createBetGroupPhasePrStat == null) {
+            createBetGroupPhasePrStat = db.getConnection().prepareStatement(createBetGroupPhaseString);
+        }
+        createBetGroupPhasePrStat.setString(1, name);
+        createBetGroupPhasePrStat.setInt(2, groupId);
+        createBetGroupPhasePrStat.setInt(3, countries[0].getId());
+        createBetGroupPhasePrStat.setInt(4, countries[1].getId());
+        createBetGroupPhasePrStat.setInt(5, countries[2].getId());
+        createBetGroupPhasePrStat.setInt(6, countries[3].getId());
+        int numDataSets = createBetGroupPhasePrStat.executeUpdate();
+        return numDataSets > 0;
+    }
+    
+    public boolean createBetKOPhase(Country[] countries, int groupId, String name) throws SQLException{
+        if (createBetKOPhasePrStat == null) {
+            createBetKOPhasePrStat = db.getConnection().prepareStatement(createBetKOPhaseString);
+        }
+        createBetKOPhasePrStat.setString(1, name);
+        createBetKOPhasePrStat.setInt(2, groupId);
+        createBetKOPhasePrStat.setInt(3, countries[0].getId());
+        createBetKOPhasePrStat.setInt(4, countries[1].getId());
+        int numDataSets = createBetKOPhasePrStat.executeUpdate();
+        return numDataSets > 0;
     }
 }

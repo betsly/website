@@ -805,54 +805,6 @@ and open the template in the editor.
     font-size: 30px;
     color: rgba(161,162,169,1);
 }
-#Group_34 {
-    position: absolute;
-    width: 26.923px;
-    height: 21.426px;
-    left: 1735.131px;
-    top: 45.324px;
-    overflow: visible;
-}
-#Group_33 {
-    position: absolute;
-    width: 26.923px;
-    height: 21.426px;
-    left: 0px;
-    top: 0px;
-    overflow: visible;
-}
-#Group_32 {
-    position: absolute;
-    width: 26.923px;
-    height: 21.426px;
-    left: 0px;
-    top: 0px;
-    overflow: visible;
-}
-#Path_213 {
-    fill: rgba(44,177,136,1);
-}
-.Path_213 {
-    overflow: visible;
-    position: absolute;
-    width: 19.238px;
-    height: 17.101px;
-    left: 3.843px;
-    top: 4.325px;
-    transform: matrix(1,0,0,1,0,0);
-}
-#Path_214 {
-    fill: rgba(44,177,136,1);
-}
-.Path_214 {
-    overflow: visible;
-    position: absolute;
-    width: 26.923px;
-    height: 12.61px;
-    left: 0px;
-    top: 0px;
-    transform: matrix(1,0,0,1,0,0);
-}
 #Rectangle_2214 {
     fill: rgba(43,49,52,1);
 }
@@ -973,14 +925,6 @@ and open the template in the editor.
     top: 22.714px;
     transform: matrix(1,0,0,1,0,0);
 }
-#Primary_Menu_cw {
-    position: absolute;
-    width: 145px;
-    height: 295px;
-    left: 1550px;
-    top: 32px;
-    overflow: visible;
-}
 #Rectangle_2100_cx {
     fill: rgba(43,49,52,1);
 }
@@ -992,42 +936,6 @@ and open the template in the editor.
     height: 77px;
     left: 85px;
     top: 0px;
-}
-#Rectangle_2102_cy {
-    fill: rgba(43,49,52,1);
-}
-.Rectangle_2102_cy {
-    filter: drop-shadow(-3px -3px 6px rgba(113, 113, 113, 0.157));
-    position: absolute;
-    overflow: visible;
-    width: 68px;
-    height: 68px;
-    left: 85px;
-    top: 0px;
-}
-#Rectangle_2101_cz {
-    opacity: 0;
-    fill: rgba(43,49,52,1);
-}
-.Rectangle_2101_cz {
-    position: absolute;
-    overflow: visible;
-    width: 145px;
-    height: 226px;
-    left: 0px;
-    top: 69px;
-}
-#Rectangle_2103_c {
-    opacity: 0;
-    fill: rgba(43,49,52,1);
-}
-.Rectangle_2103_c {
-    position: absolute;
-    overflow: visible;
-    width: 145px;
-    height: 226px;
-    left: 0px;
-    top: 69px;
 }
 #Option_1_c {
     opacity: 0;
@@ -1073,50 +981,6 @@ and open the template in the editor.
     font-weight: bold;
     font-size: 30px;
     color: rgba(161,162,169,1);
-}
-#Icon_feather-settings {
-    position: absolute;
-    width: 24px;
-    height: 24px;
-    left: 1647.562px;
-    top: 44.875px;
-    overflow: visible;
-}
-#Path_200 {
-    fill: transparent;
-    stroke: rgba(44,177,136,1);
-    stroke-width: 3px;
-    stroke-linejoin: round;
-    stroke-linecap: round;
-    stroke-miterlimit: 4;
-    shape-rendering: auto;
-}
-.Path_200 {
-    overflow: visible;
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    left: 7.5px;
-    top: 7.5px;
-    transform: matrix(1,0,0,1,0,0);
-}
-#Path_201 {
-    fill: transparent;
-    stroke: rgba(44,177,136,1);
-    stroke-width: 3px;
-    stroke-linejoin: round;
-    stroke-linecap: round;
-    stroke-miterlimit: 4;
-    shape-rendering: auto;
-}
-.Path_201 {
-    overflow: visible;
-    position: absolute;
-    width: 27px;
-    height: 27px;
-    left: 0px;
-    top: 0px;
-    transform: matrix(1,0,0,1,0,0);
 }
 #Primary_Button {
     position: absolute;

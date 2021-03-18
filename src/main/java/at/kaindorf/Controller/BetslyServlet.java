@@ -7,6 +7,7 @@ package at.kaindorf.Controller;
 
 import at.kaindorf.Bl.JWT;
 import at.kaindorf.DB.DB_Access;
+import at.kaindorf.beans.Country;
 import at.kaindorf.beans.Group;
 import at.kaindorf.beans.User;
 import java.io.BufferedReader;
@@ -35,6 +36,8 @@ import javax.servlet.http.HttpServletResponse;
 public class BetslyServlet extends HttpServlet {
 
     private String jwtUser = "";
+    private List<Country> countries = new ArrayList<>();
+    private int groupIdCreateBet;
     private boolean createGroupError = false;
     private boolean databaseError = false;
     private boolean joinGroupError = false;
@@ -48,14 +51,11 @@ public class BetslyServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
-    
-    
     @Override
     public void init(ServletConfig config)
             throws ServletException {
         super.init(config); //To change body of generated methods, choose Tools | Templates.
-        
+
         //Country Liste erstellen für DB
 //        File file = Paths.get(config.getServletContext().getRealPath("/fifa_countries_audience_csv.csv")).toFile();
 //        FileReader fr;
@@ -80,12 +80,16 @@ public class BetslyServlet extends HttpServlet {
 //        } catch (SQLException ex) {
 //            
 //        }
-        
+        try {
+            countries = DB_Access.getInstance().getCountries();
+            config.getServletContext().setAttribute("countries", countries);
+        } catch (SQLException ex) {
+            config.getServletContext().setAttribute("countries", "fehler");
+        }
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
         // Set User
         try {
             request.setAttribute("jwtUser", JWT.decodeJWT(jwtUser).getId());
@@ -95,7 +99,7 @@ public class BetslyServlet extends HttpServlet {
         // Registration 
         if (request.getParameter("registration") != null) {
             request.getRequestDispatcher("jRegistrationPage.jsp").forward(request, response);
-            
+
             // Login 
         } else if (request.getParameter("login") != null) {
             request.getRequestDispatcher("jLoginPage.jsp").forward(request, response);
@@ -108,15 +112,21 @@ public class BetslyServlet extends HttpServlet {
         } else if (request.getParameter("joinGroupForm") != null) {
             request.getRequestDispatcher("jJoinGroupPage.jsp").forward(request, response);
 
-            // Create Bet GroupPhase
-        } else if(request.getParameter("createGroupPhaseBetForm") != null){
-            request.getRequestDispatcher("jCreateBetGroupPhasePage.jsp").forward(request, response);
-            
+            // Create Bet
+        } else if (request.getParameter("createBetForm") != null || (request.getParameter("betType") != null && request.getParameter("createBetDB") == null)) {
+            groupIdCreateBet = request.getParameter("createBetForm") != null ? Integer.parseInt(request.getParameter("createBetForm").replace("create Bet", "")) : groupIdCreateBet;
+            request.setAttribute("betType", request.getParameter("betType") != null ? request.getParameter("betType") : "group");
+            request.getRequestDispatcher("jCreateBetPage.jsp").forward(request, response);
+
+//            // Show Joined Groups
+//        } else if(request.getParameter("showGroups") != null){
+//            request.getRequestDispatcher("jShowJoinedGroupsPage.jsp").forward(request, response);
+//            
             // Welcomepage
         } else {
             request.getRequestDispatcher("jWelcomePage.jsp").forward(request, response);
         }
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -146,9 +156,9 @@ public class BetslyServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-            //--------------
-            // Registration 
-            //--------------
+        //--------------
+        // Registration 
+        //--------------
         if (request.getParameter("confirmRegistration") != null) {
             String username = request.getParameter("username");
             String passwort = request.getParameter("password");
@@ -174,9 +184,8 @@ public class BetslyServlet extends HttpServlet {
             }
             if (password.hashCode() == pwCompare && pwCompare != -1) {
                 jwtUser = JWT.createJWT(email, email, "login-success", 1000000000);
-            }
-            else {
-                request.setAttribute("test",  pwCompare + " " + password.hashCode());
+            } else {
+                request.setAttribute("test", pwCompare + " " + password.hashCode());
             }
 
             //--------------
@@ -199,14 +208,14 @@ public class BetslyServlet extends HttpServlet {
             // join Group 
             //--------------
         } else if (request.getParameter("joinGroup") != null) {
-            if ((request.getParameter("joinGroupName") != null || !request.getParameter("joinGroupName").trim().isEmpty()) 
+            if ((request.getParameter("joinGroupName") != null || !request.getParameter("joinGroupName").trim().isEmpty())
                     && (request.getParameter("joinGroupPW") != null || !request.getParameter("joinGroupPW").trim().isEmpty())) {
                 String groupName = request.getParameter("joinGroupName");
                 String pw = request.getParameter("joinGroupPW");
                 int pwCompare = -1;
                 try {
                     pwCompare = DB_Access.getInstance().getPasswordByGroupName(groupName);
-                    if(pwCompare != -1 && pwCompare == pw.hashCode()){
+                    if (pwCompare != -1 && pwCompare == pw.hashCode()) {
                         DB_Access.getInstance().joinGroup(groupName, JWT.decodeJWT(jwtUser).getId());
                     }
                 } catch (SQLException ex) {
@@ -234,22 +243,45 @@ public class BetslyServlet extends HttpServlet {
             } catch (IllegalArgumentException e) {
                 joinGroupError = true;
             }
-            
+
             //--------------
-            // create Bet Form (Group Phase) 
-            //--------------
-        } else if(request.getParameter("createGroupPhaseBetForm") != null){
-            try {
-                request.setAttribute("countries", DB_Access.getInstance().getCountries());
-            } catch (SQLException ex) {
-                databaseError = true;
+            // create Bet Form
+            //--------------  
+        } else if (request.getParameter("createBetDB") != null) {
+            if (request.getParameter("betType").equals("group")) {
+                Country[] countryAr = new Country[4];
+                String name = request.getParameter("betName");
+                for (int i = 1; i <= 4; i++) {
+                    for (Country country : countries) {
+                        if(country.getName().equals(request.getParameter("country"+i)))
+                            countryAr[i-1] = country;
+                    }
+                }
+                try {
+                    DB_Access.getInstance().createBetGroupPhase(countryAr, groupIdCreateBet, name);
+                } catch (SQLException ex) {
+                    Logger.getLogger(BetslyServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                Country[] countryAr = new Country[2];
+                String name = request.getParameter("betName");
+                for (int i = 1; i <= 2; i++) {
+                    for (Country country : countries) {
+                        if(country.getName().equals(request.getParameter("country"+i)))
+                            countryAr[i-1] = country;
+                    }
+                }
+                try {
+                    DB_Access.getInstance().createBetKOPhase(countryAr, groupIdCreateBet, name);
+                } catch (SQLException ex) {
+                    Logger.getLogger(BetslyServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-        } else if(request.getParameter("createBetGroupPhase") != null){
-            
         }
-            //--------------
-            // Error Handling 
-            //--------------
+        
+        //--------------
+        // Error Handling 
+        //--------------
         else {
             createGroupError = false;
             databaseError = false;

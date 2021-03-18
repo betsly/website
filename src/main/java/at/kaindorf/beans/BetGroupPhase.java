@@ -18,7 +18,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class BetGroupPhase {
-    private int id;
     private String name;
     private Country counrty1;
     private Country counrty2;
