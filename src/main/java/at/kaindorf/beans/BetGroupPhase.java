@@ -18,9 +18,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class BetGroupPhase {
+    private int id;
+    private int groupId;
     private String name;
-    private Country counrty1;
-    private Country counrty2;
-    private Country counrty3;
-    private Country counrty4;
+    private Country country1;
+    private Country country2;
+    private Country country3;
+    private Country country4;
 }

@@ -7,6 +7,8 @@ package at.kaindorf.Controller;
 
 import at.kaindorf.Bl.JWT;
 import at.kaindorf.DB.DB_Access;
+import at.kaindorf.beans.BetGroupPhase;
+import at.kaindorf.beans.BetKoPhase;
 import at.kaindorf.beans.Country;
 import at.kaindorf.beans.Group;
 import at.kaindorf.beans.User;
@@ -18,7 +20,9 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletConfig;
@@ -37,7 +41,12 @@ public class BetslyServlet extends HttpServlet {
 
     private String jwtUser = "";
     private List<Country> countries = new ArrayList<>();
+    private List<Group> joinedGroups = null;
     private int groupIdCreateBet;
+    private int betIdMakeBetKO;
+    private int betIdMakeBetGroup;
+    Map<Integer, List<BetGroupPhase>> betMapGroup;
+    Map<Integer, List<BetKoPhase>> betMapKo;
     private boolean createGroupError = false;
     private boolean databaseError = false;
     private boolean joinGroupError = false;
@@ -123,6 +132,29 @@ public class BetslyServlet extends HttpServlet {
 //            request.getRequestDispatcher("jShowJoinedGroupsPage.jsp").forward(request, response);
 //            
             // Welcomepage
+            
+        } else if(request.getParameter("makeBetKO") != null){
+            String[] tokens = request.getParameter("makeBetKO").split(" ");
+            betIdMakeBetKO = Integer.parseInt(tokens[1]);
+            for (BetKoPhase betKoPhase : betMapKo.get(Integer.parseInt(tokens[2]))) {
+                if(betKoPhase.getBetId() == Integer.parseInt(tokens[1])){
+                    request.setAttribute("bet", betKoPhase);
+                    break;
+                }
+            }
+            request.getRequestDispatcher("jMakeBetKOPage.jsp").forward(request, response);
+            
+        } else if(request.getParameter("makeBetGroup") != null){
+            String[] tokens = request.getParameter("makeBetGroup").split(" ");
+            betIdMakeBetGroup = Integer.parseInt(tokens[1]);
+            for (BetGroupPhase betGroupPhase : betMapGroup.get(Integer.parseInt(tokens[2]))) {
+                if(betGroupPhase.getId() == Integer.parseInt(tokens[1])){
+                    request.setAttribute("bet", betGroupPhase);
+                    break;
+                }
+            }
+            request.getRequestDispatcher("jMakeBetGroupPage.jsp").forward(request, response);
+            
         } else {
             request.getRequestDispatcher("jWelcomePage.jsp").forward(request, response);
         }
@@ -155,7 +187,6 @@ public class BetslyServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         //--------------
         // Registration 
         //--------------
@@ -236,8 +267,8 @@ public class BetslyServlet extends HttpServlet {
             //--------------
         } else if (request.getParameter("showGroups") != null) {
             try {
-                List<Group> groups = DB_Access.getInstance().getJoinedGroups(JWT.decodeJWT(jwtUser).getId());
-                request.setAttribute("joinedGroups", groups);
+                joinedGroups = DB_Access.getInstance().getJoinedGroups(JWT.decodeJWT(jwtUser).getId());
+                request.setAttribute("joinedGroups", joinedGroups);
             } catch (SQLException ex) {
                 databaseError = true;
             } catch (IllegalArgumentException e) {
@@ -276,16 +307,55 @@ public class BetslyServlet extends HttpServlet {
                 } catch (SQLException ex) {
                     Logger.getLogger(BetslyServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            }  
+            
+        //--------------
+        // Make Bet KO
+        //--------------
+        } else if (request.getParameter("makeBetDBKO") != null) {
+            try {
+                DB_Access.getInstance().makeBetKOPhase(betIdMakeBetKO, JWT.decodeJWT(jwtUser).getId(), Integer.parseInt(request.getParameter("tip")), request.getParameter("score"));            
+            
+            } catch (SQLException ex) {
+                Logger.getLogger(BetslyServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-        
+            
         //--------------
-        // Error Handling 
+        // Make Bet Group
         //--------------
-        else {
+        }else if (request.getParameter("makeBetDBGroup") != null) {
+            try {
+                DB_Access.getInstance().makeBetGroupPhase(betIdMakeBetGroup, JWT.decodeJWT(jwtUser).getId(), Integer.parseInt(request.getParameter("first")), 
+                        Integer.parseInt(request.getParameter("second")), Integer.parseInt(request.getParameter("third")), Integer.parseInt(request.getParameter("fourth")));            
+            
+            } catch (SQLException ex) {
+                request.setAttribute("exe", ex);
+            }
+            
+            
+        }else {
             createGroupError = false;
             databaseError = false;
             joinGroupError = false;
+        }
+        
+        
+        //--------------
+            // Show bets 
+        //--------------
+        if(joinedGroups != null && !joinedGroups.isEmpty()){
+            betMapGroup = new HashMap<>();
+            betMapKo = new HashMap<>();
+            for (Group group : joinedGroups) {
+                try {
+                    betMapGroup.put(group.getId(), DB_Access.getInstance().getGroupPhaseBetsByGroup(group.getId()));
+                    betMapKo.put(group.getId(), DB_Access.getInstance().getKOPhaseBetsByGroup(group.getId()));
+                } catch (SQLException ex) {
+                    databaseError = true;
+                }
+            }
+            request.setAttribute("betMapGroupPhase", betMapGroup);    
+            request.setAttribute("betMapKOPhase", betMapKo);    
         }
 
         request.setAttribute("createGroupError", createGroupError);

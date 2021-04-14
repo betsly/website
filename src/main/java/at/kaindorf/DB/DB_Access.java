@@ -5,6 +5,8 @@
  */
 package at.kaindorf.DB;
 
+import at.kaindorf.beans.BetGroupPhase;
+import at.kaindorf.beans.BetKoPhase;
 import at.kaindorf.beans.Country;
 import at.kaindorf.beans.Group;
 import at.kaindorf.beans.User;
@@ -72,6 +74,29 @@ public class DB_Access {
     private PreparedStatement createBetKOPhasePrStat;
     private final String createBetKOPhaseString = "INSERT INTO bet_ko_phase (name, group_id, country1, country2)"
             + "VALUES ( ?, ?, ?, ? );";
+    
+    private PreparedStatement getBetGroupPhasePrStat;
+    private final String getBetGroupPhaseString = "SELECT *\n" +
+            "FROM bet_group_phase\n" +
+            "WHERE group_id = ?";
+    
+    private PreparedStatement getBetKOPhasePrStat;
+    private final String getBetKOPhaseString = "SELECT *\n" +
+            "FROM bet_ko_phase\n" +
+            "WHERE group_id = ?";
+    
+    private PreparedStatement getCountryByIDPrStat;
+    private final String getCountryByIDString = "SELECT country\n" +
+            "FROM country\n" +
+            "WHERE country_id = ?";
+    
+    private PreparedStatement makeBetKOPhasePrStat;
+    private final String makeBetKOPhaseString = "INSERT INTO bet_ko_phase_user (bet_id, user_id, tip, score)"
+            + "VALUES ( ?, ?, ?, ? );";
+                    
+    private PreparedStatement makeBetGroupPhasePrStat;
+    private final String makeBetGroupPhaseString = "INSERT INTO bet_group_phase_user (bet_id, user_id, country1, country2, country3, country4)"
+            + "VALUES ( ?, ?, ?, ?, ?, ? );";
     
     public static DB_Access getInstance() throws SQLException {
         if (theInstance == null) {
@@ -271,6 +296,82 @@ public class DB_Access {
         createBetKOPhasePrStat.setInt(3, countries[0].getId());
         createBetKOPhasePrStat.setInt(4, countries[1].getId());
         int numDataSets = createBetKOPhasePrStat.executeUpdate();
+        return numDataSets > 0;
+    }
+    
+    public List<BetGroupPhase> getGroupPhaseBetsByGroup(int groupId) throws SQLException{
+        List<BetGroupPhase> bets = new ArrayList<>();
+        if (getBetGroupPhasePrStat == null) {
+            getBetGroupPhasePrStat = db.getConnection().prepareStatement(getBetGroupPhaseString);
+        }
+        getBetGroupPhasePrStat.setInt(1, groupId);
+        ResultSet rs = getBetGroupPhasePrStat.executeQuery();
+        while (rs.next()) {
+            int betId = rs.getInt("bet_id");
+            String name = rs.getString("name");
+            Country country1 = getCountryByID(rs.getInt("country1"));
+            Country country2 = getCountryByID(rs.getInt("country2"));
+            Country country3 = getCountryByID(rs.getInt("country3"));
+            Country country4 = getCountryByID(rs.getInt("country4"));
+            bets.add(new BetGroupPhase(betId, groupId, name, country1, country2, country3, country4));
+        }
+        return bets;
+    }
+    
+    public List<BetKoPhase> getKOPhaseBetsByGroup(int groupId) throws SQLException{
+        List<BetKoPhase> bets = new ArrayList<>();
+        if (getBetKOPhasePrStat == null) {
+            getBetKOPhasePrStat = db.getConnection().prepareStatement(getBetKOPhaseString);
+        }
+        getBetKOPhasePrStat.setInt(1, groupId);
+        ResultSet rs = getBetKOPhasePrStat.executeQuery();
+        while (rs.next()) {
+            int betId = rs.getInt("bet_id");
+            String name = rs.getString("name");
+            Country country1 = getCountryByID(rs.getInt("country1"));
+            Country country2 = getCountryByID(rs.getInt("country2"));
+            bets.add(new BetKoPhase(betId, groupId, name, country1, country2));
+        }
+        return bets;
+    }
+    
+    public Country getCountryByID(int id) throws SQLException{
+        Country country = null;
+        if (getCountryByIDPrStat == null) {
+            getCountryByIDPrStat = db.getConnection().prepareStatement(getCountryByIDString);
+        }
+        getCountryByIDPrStat.setInt(1, id);
+        ResultSet rs = getCountryByIDPrStat.executeQuery();
+        while (rs.next()) {
+            String name = rs.getString("country");
+            country = new Country(id, name);
+        }
+        return country;
+    }
+    
+    public boolean makeBetKOPhase(int betId, String userId, int tip, String score) throws SQLException{
+        if (makeBetKOPhasePrStat == null) {
+            makeBetKOPhasePrStat = db.getConnection().prepareStatement(makeBetKOPhaseString);
+        }
+        makeBetKOPhasePrStat.setInt(1, betId);
+        makeBetKOPhasePrStat.setString(2, userId);
+        makeBetKOPhasePrStat.setInt(3, tip);
+        makeBetKOPhasePrStat.setString(4, score);
+        int numDataSets = makeBetKOPhasePrStat.executeUpdate();
+        return numDataSets > 0;
+    }
+    
+    public boolean makeBetGroupPhase(int betId, String userId, int c1, int c2, int c3, int c4) throws SQLException{
+        if (makeBetGroupPhasePrStat == null) {
+            makeBetGroupPhasePrStat = db.getConnection().prepareStatement(makeBetGroupPhaseString);
+        }
+        makeBetGroupPhasePrStat.setInt(1, betId);
+        makeBetGroupPhasePrStat.setString(2, userId);
+        makeBetGroupPhasePrStat.setInt(3, c1);
+        makeBetGroupPhasePrStat.setInt(4, c2);
+        makeBetGroupPhasePrStat.setInt(5, c3);
+        makeBetGroupPhasePrStat.setInt(6, c4);
+        int numDataSets = makeBetGroupPhasePrStat.executeUpdate();
         return numDataSets > 0;
     }
 }

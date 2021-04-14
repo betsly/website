@@ -27,7 +27,7 @@
                 <input type="submit" value="join group" name="joinGroupForm" />
             </c:otherwise>
         </c:choose>
-
+${exe}
         <c:if test="${joinedGroups != null}">
             <h1>Joined Groups</h1>
             <ul id="groups">
@@ -39,6 +39,26 @@
                         <details>
                             <p>${group.description}</p>
                             <p>Host: ${group.host}</p>
+                            <c:forEach var="entry" items="${betMapGroupPhase}">
+                                <c:if test="${entry.key == group.id && entry.value.size() > 0}">
+                                    Group Phase Bets
+                                    <c:forEach var="bet" items="${entry.value}">
+                                        <p>Bet ${bet.id}: 
+                                            ${bet.name} <input type="submit" value="makeBet: ${bet.id} ${group.id}" name="makeBetGroup"/>
+                                        </p>
+                                    </c:forEach>
+                                </c:if>
+                            </c:forEach>
+                            <c:forEach var="entry" items="${betMapKOPhase}">
+                                <c:if test="${entry.key == group.id && entry.value.size() > 0}">
+                                    Ko Phase Bets
+                                    <c:forEach var="bet" items="${entry.value}">
+                                        <p>Bet ${bet.betId}: 
+                                            ${bet.name} <input type="submit" value="makeBet: ${bet.betId} ${group.id}" name="makeBetKO"/>
+                                        </p>
+                                    </c:forEach>
+                                </c:if>
+                            </c:forEach>
                         </details>
                         <c:if test="${jwtUser.equals(group.host)}">
                             <input type="submit" value="create Bet${group.id}" name="createBetForm" />
