@@ -44,7 +44,8 @@ ${exe}
                                     Group Phase Bets
                                     <c:forEach var="bet" items="${entry.value}">
                                         <p>Bet ${bet.id}: 
-                                            ${bet.name} <input type="submit" value="makeBet: ${bet.id} ${group.id}" name="makeBetGroup"/>
+                                            
+                                            ${bet.name} <button type="submit" value="makeBet: ${bet.id} ${group.id}" name="makeBetGroup">make Bet</button>
                                         </p>
                                     </c:forEach>
                                 </c:if>
@@ -54,7 +55,7 @@ ${exe}
                                     Ko Phase Bets
                                     <c:forEach var="bet" items="${entry.value}">
                                         <p>Bet ${bet.betId}: 
-                                            ${bet.name} <input type="submit" value="makeBet: ${bet.betId} ${group.id}" name="makeBetKO"/>
+                                            ${bet.name} <button type="submit" value="makeBet: ${bet.betId} ${group.id}" name="makeBetKO">make Bet</button>
                                         </p>
                                     </c:forEach>
                                 </c:if>

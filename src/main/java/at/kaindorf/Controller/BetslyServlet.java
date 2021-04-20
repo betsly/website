@@ -333,7 +333,14 @@ public class BetslyServlet extends HttpServlet {
             }
             
             
-        }else {
+        }
+        //--------------
+        // Close Bet
+        //--------------
+        else if (request.getParameter("closeBet") != null) {
+            
+            
+        } else {
             createGroupError = false;
             databaseError = false;
             joinGroupError = false;
@@ -341,7 +348,7 @@ public class BetslyServlet extends HttpServlet {
         
         
         //--------------
-            // Show bets 
+        // Show bets 
         //--------------
         if(joinedGroups != null && !joinedGroups.isEmpty()){
             betMapGroup = new HashMap<>();
