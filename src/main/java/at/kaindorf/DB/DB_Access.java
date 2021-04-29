@@ -15,7 +15,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -51,22 +53,22 @@ public class DB_Access {
 
     private PreparedStatement getPasswordByEmailPrStat;
     private final String getPasswordByEmailString = "SELECT password FROM user_account WHERE email = ?;";
-    
+
     private PreparedStatement getJoinedGroupsPrStat;
-    private String getJoinedGroupsString = "SELECT public.\"group\".group_id, name, description, password, public.\"group_owner\".owner_id\n"
-                + "FROM public.\"group\" INNER JOIN public.\"group_user\" ON public.\"group\".group_id = public.\"group_user\".group_id\n"
-                + "INNER JOIN public.\"group_owner\" ON public.\"group\".group_id = public.\"group_owner\".group_id\n" 
-                + "WHERE user_id = ?;";
-    
+    private String getJoinedGroupsString = "SELECT public.\"group\".group_id, name, description, password, public.\"group_owner\".owner_id, public.\"group_user\".points\n"
+            + "FROM public.\"group\" INNER JOIN public.\"group_user\" ON public.\"group\".group_id = public.\"group_user\".group_id\n"
+            + "INNER JOIN public.\"group_owner\" ON public.\"group\".group_id = public.\"group_owner\".group_id\n"
+            + "WHERE user_id = ?;";
+
     private PreparedStatement createGroupPrStat;
     private String createGroupString = "SELECT group_id FROM public.\"group\" WHERE name = ?;";
-    
+
     private PreparedStatement joinGroupPrStat;
     private String joinGroupString = "SELECT group_id FROM public.\"group\" WHERE name = ?;";
-    
+
     private PreparedStatement getPasswordByGroupNamePrStat;
     private final String getPasswordByGroupNameString = "SELECT password FROM public.\"group\" WHERE name = ?;";
-    
+
     private PreparedStatement createBetGroupPhasePrStat;
     private final String createBetGroupPhaseString = "INSERT INTO bet_group_phase (name, group_id, country1, country2, country3, country4)"
             + "VALUES ( ?, ?, ?, ?, ?, ? );";
@@ -74,30 +76,30 @@ public class DB_Access {
     private PreparedStatement createBetKOPhasePrStat;
     private final String createBetKOPhaseString = "INSERT INTO bet_ko_phase (name, group_id, country1, country2)"
             + "VALUES ( ?, ?, ?, ? );";
-    
+
     private PreparedStatement getBetGroupPhasePrStat;
-    private final String getBetGroupPhaseString = "SELECT *\n" +
-            "FROM bet_group_phase\n" +
-            "WHERE group_id = ?";
-    
+    private final String getBetGroupPhaseString = "SELECT *\n"
+            + "FROM bet_group_phase\n"
+            + "WHERE group_id = ?";
+
     private PreparedStatement getBetKOPhasePrStat;
-    private final String getBetKOPhaseString = "SELECT *\n" +
-            "FROM bet_ko_phase\n" +
-            "WHERE group_id = ?";
-    
+    private final String getBetKOPhaseString = "SELECT *\n"
+            + "FROM bet_ko_phase\n"
+            + "WHERE group_id = ?";
+
     private PreparedStatement getCountryByIDPrStat;
-    private final String getCountryByIDString = "SELECT country\n" +
-            "FROM country\n" +
-            "WHERE country_id = ?";
-    
+    private final String getCountryByIDString = "SELECT country\n"
+            + "FROM country\n"
+            + "WHERE country_id = ?";
+
     private PreparedStatement makeBetKOPhasePrStat;
     private final String makeBetKOPhaseString = "INSERT INTO bet_ko_phase_user (bet_id, user_id, tip, score)"
             + "VALUES ( ?, ?, ?, ? );";
-                    
+
     private PreparedStatement makeBetGroupPhasePrStat;
     private final String makeBetGroupPhaseString = "INSERT INTO bet_group_phase_user (bet_id, user_id, country1, country2, country3, country4)"
             + "VALUES ( ?, ?, ?, ?, ?, ? );";
-    
+
     public static DB_Access getInstance() throws SQLException {
         if (theInstance == null) {
             theInstance = new DB_Access();
@@ -166,7 +168,8 @@ public class DB_Access {
             String description = rs.getString("description");
             String password = rs.getString("password");
             String ownerId = rs.getString("owner_id");
-            joinedGroups.add(new Group(group_id, group_name, description, password, ownerId));
+            int points = rs.getInt("points");
+            joinedGroups.add(new Group(group_id, group_name, description, password, ownerId, points));
         }
         return joinedGroups;
     }
@@ -259,8 +262,8 @@ public class DB_Access {
         }
         return true;
     }
-    
-    public List<Country> getCountries() throws SQLException{
+
+    public List<Country> getCountries() throws SQLException {
         List<Country> counries = new ArrayList<>();
         String sql = "SELECT * FROM country;";
         Statement prep = db.getStatement();
@@ -272,8 +275,8 @@ public class DB_Access {
         }
         return counries;
     }
-    
-    public boolean createBetGroupPhase(Country[] countries, int groupId, String name) throws SQLException{
+
+    public boolean createBetGroupPhase(Country[] countries, int groupId, String name) throws SQLException {
         if (createBetGroupPhasePrStat == null) {
             createBetGroupPhasePrStat = db.getConnection().prepareStatement(createBetGroupPhaseString);
         }
@@ -286,8 +289,8 @@ public class DB_Access {
         int numDataSets = createBetGroupPhasePrStat.executeUpdate();
         return numDataSets > 0;
     }
-    
-    public boolean createBetKOPhase(Country[] countries, int groupId, String name) throws SQLException{
+
+    public boolean createBetKOPhase(Country[] countries, int groupId, String name) throws SQLException {
         if (createBetKOPhasePrStat == null) {
             createBetKOPhasePrStat = db.getConnection().prepareStatement(createBetKOPhaseString);
         }
@@ -298,8 +301,8 @@ public class DB_Access {
         int numDataSets = createBetKOPhasePrStat.executeUpdate();
         return numDataSets > 0;
     }
-    
-    public List<BetGroupPhase> getGroupPhaseBetsByGroup(int groupId) throws SQLException{
+
+    public List<BetGroupPhase> getGroupPhaseBetsByGroup(int groupId) throws SQLException {
         List<BetGroupPhase> bets = new ArrayList<>();
         if (getBetGroupPhasePrStat == null) {
             getBetGroupPhasePrStat = db.getConnection().prepareStatement(getBetGroupPhaseString);
@@ -309,16 +312,17 @@ public class DB_Access {
         while (rs.next()) {
             int betId = rs.getInt("bet_id");
             String name = rs.getString("name");
+            boolean closed = rs.getBoolean("closed");
             Country country1 = getCountryByID(rs.getInt("country1"));
             Country country2 = getCountryByID(rs.getInt("country2"));
             Country country3 = getCountryByID(rs.getInt("country3"));
             Country country4 = getCountryByID(rs.getInt("country4"));
-            bets.add(new BetGroupPhase(betId, groupId, name, country1, country2, country3, country4));
+            bets.add(new BetGroupPhase(betId, groupId, name, country1, country2, country3, country4, closed));
         }
         return bets;
     }
-    
-    public List<BetKoPhase> getKOPhaseBetsByGroup(int groupId) throws SQLException{
+
+    public List<BetKoPhase> getKOPhaseBetsByGroup(int groupId) throws SQLException {
         List<BetKoPhase> bets = new ArrayList<>();
         if (getBetKOPhasePrStat == null) {
             getBetKOPhasePrStat = db.getConnection().prepareStatement(getBetKOPhaseString);
@@ -328,14 +332,15 @@ public class DB_Access {
         while (rs.next()) {
             int betId = rs.getInt("bet_id");
             String name = rs.getString("name");
+            boolean closed = rs.getBoolean("closed");
             Country country1 = getCountryByID(rs.getInt("country1"));
             Country country2 = getCountryByID(rs.getInt("country2"));
-            bets.add(new BetKoPhase(betId, groupId, name, country1, country2));
+            bets.add(new BetKoPhase(betId, groupId, name, country1, country2, closed));
         }
         return bets;
     }
-    
-    public Country getCountryByID(int id) throws SQLException{
+
+    public Country getCountryByID(int id) throws SQLException {
         Country country = null;
         if (getCountryByIDPrStat == null) {
             getCountryByIDPrStat = db.getConnection().prepareStatement(getCountryByIDString);
@@ -348,8 +353,8 @@ public class DB_Access {
         }
         return country;
     }
-    
-    public boolean makeBetKOPhase(int betId, String userId, int tip, String score) throws SQLException{
+
+    public boolean makeBetKOPhase(int betId, String userId, int tip, String score) throws SQLException {
         if (makeBetKOPhasePrStat == null) {
             makeBetKOPhasePrStat = db.getConnection().prepareStatement(makeBetKOPhaseString);
         }
@@ -360,8 +365,8 @@ public class DB_Access {
         int numDataSets = makeBetKOPhasePrStat.executeUpdate();
         return numDataSets > 0;
     }
-    
-    public boolean makeBetGroupPhase(int betId, String userId, int c1, int c2, int c3, int c4) throws SQLException{
+
+    public boolean makeBetGroupPhase(int betId, String userId, int c1, int c2, int c3, int c4) throws SQLException {
         if (makeBetGroupPhasePrStat == null) {
             makeBetGroupPhasePrStat = db.getConnection().prepareStatement(makeBetGroupPhaseString);
         }
@@ -372,6 +377,68 @@ public class DB_Access {
         makeBetGroupPhasePrStat.setInt(5, c3);
         makeBetGroupPhasePrStat.setInt(6, c4);
         int numDataSets = makeBetGroupPhasePrStat.executeUpdate();
+        return numDataSets > 0;
+    }
+
+    public boolean closeBetKOPhase(int betID) throws SQLException {
+        String sql = "UPDATE public.bet_ko_phase\n"
+                + "SET closed=TRUE\n"
+                + "WHERE bet_id = " + betID + ";";
+        Statement prep = db.getStatement();
+        return prep.executeUpdate(sql) > 0;
+    }
+    
+    public boolean closeBetGroupPhase(int betID) throws SQLException {
+        String sql = "UPDATE public.bet_group_phase\n"
+                + "SET closed=TRUE\n"
+                + "WHERE bet_id = " + betID + ";";
+        Statement prep = db.getStatement();
+        return prep.executeUpdate(sql) > 0;
+    }
+
+    public boolean distributePointsKO(String winnerID, String[] endScore, int betID, int groupID) throws SQLException {
+        String sql = "SELECT *\n"
+                + "FROM bet_ko_phase_user\n"
+                + "WHERE bet_id = " + betID + ";";
+        Statement prep = db.getStatement();
+        ResultSet rs = prep.executeQuery(sql);
+        int points = 0;
+        int numDataSets = 0;
+        while (rs.next()) {
+            points += rs.getString("tip").equals(winnerID) ? 3 : 0;
+            String[] score = rs.getString("score").split(":");
+            points += score[0].equals(endScore[0]) ? 2 : 0;
+            points += score[1].equals(endScore[1]) ? 2 : 0;
+            String sqlString = "UPDATE public.group_user\n"
+                    + "SET points = points + " + points +"\n"
+                    + "WHERE user_id = '" + rs.getString("user_id") + "' AND group_id = " + groupID + ";";
+            Statement prepStatement = db.getStatement();
+            numDataSets = prepStatement.executeUpdate(sqlString);
+            points = 0;
+        }
+        return numDataSets > 0;
+    }
+    
+    public boolean distributePointsGroup(String first, String second, String third, String fourth, int betID, int groupID) throws SQLException {
+        String sql = "SELECT *\n"
+                + "FROM bet_group_phase_user\n"
+                + "WHERE bet_id = " + betID + ";";
+        Statement prep = db.getStatement();
+        ResultSet rs = prep.executeQuery(sql);
+        int points = 0;
+        int numDataSets = 0;
+        while (rs.next()) {
+            points += rs.getString("country1").equals(first) ? 2 : 0;
+            points += rs.getString("country2").equals(second) ? 2 : 0;
+            points += rs.getString("country3").equals(third) ? 2 : 0;
+            points += rs.getString("country4").equals(fourth) ? 2 : 0;
+            String sqlString = "UPDATE public.group_user\n"
+                    + "SET points = points + " + points +"\n"
+                    + "WHERE user_id = '" + rs.getString("user_id") + "' AND group_id = " + groupID + ";";
+            Statement prepStatement = db.getStatement();
+            numDataSets = prepStatement.executeUpdate(sqlString);
+            points = 0;
+        }
         return numDataSets > 0;
     }
 }

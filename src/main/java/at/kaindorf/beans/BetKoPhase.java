@@ -23,4 +23,13 @@ public class BetKoPhase {
     private String name;
     private Country country1;
     private Country country2;
+    private boolean closed;
+
+    public BetKoPhase(int betId, int groupId, String name, Country country1, Country country2) {
+        this.betId = betId;
+        this.groupId = groupId;
+        this.name = name;
+        this.country1 = country1;
+        this.country2 = country2;
+    }
 }

@@ -23,7 +23,7 @@ public class User {
     private String email;
     private String username;
     private String pw;
-    private List<Group> joinedGroups;    
+    private List<Group> joinedGroups;
 
     public User(String email, String username, String password) {
         this.email = email;

@@ -23,4 +23,5 @@ public class Group {
     private String description;
     private String password;
     private String host;
+    private int points;
 }

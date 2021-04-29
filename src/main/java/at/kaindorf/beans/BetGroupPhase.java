@@ -25,4 +25,17 @@ public class BetGroupPhase {
     private Country country2;
     private Country country3;
     private Country country4;
+    private boolean closed;
+
+    public BetGroupPhase(int id, int groupId, String name, Country country1, Country country2, Country country3, Country country4) {
+        this.id = id;
+        this.groupId = groupId;
+        this.name = name;
+        this.country1 = country1;
+        this.country2 = country2;
+        this.country3 = country3;
+        this.country4 = country4;
+    }
+    
+    
 }
