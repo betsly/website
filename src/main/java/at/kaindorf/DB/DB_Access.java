@@ -44,8 +44,8 @@ public class DB_Access {
             + "VALUES ( ? , ?);";
 
     private PreparedStatement insertGroupUserPrStat = null;
-    private final String insertGroupUserString = "INSERT INTO group_user (user_id, group_id) "
-            + "VALUES ( ? , ?);";
+    private final String insertGroupUserString = "INSERT INTO group_user (user_id, group_id, points) "
+            + "VALUES ( ? , ?, 0);";
 
     private PreparedStatement insertCountriesPrStat = null;
     private final String insertCountrieString = "INSERT INTO country (country) "

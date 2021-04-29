@@ -25,6 +25,7 @@
                 <input type="submit" value="show groups" name="showGroups" />
                 <input type="submit" value="create group" name="createGroupForm" />
                 <input type="submit" value="join group" name="joinGroupForm" />
+                <input type="submit" value="Logout" name="logout" />
             </c:otherwise>
         </c:choose>
         ${exe}
@@ -49,25 +50,25 @@
                                                 ${bet.name} <button type="submit" value="makeBet: ${bet.id} ${group.id}" name="makeBetGroup">make Bet</button>
                                             </p>
                                             <c:if test="${jwtUser.equals(group.host)}">
-                                                1. <select name="1">
+                                                1. <select name="c1">
                                                     <option value="${bet.country1.id}">${bet.country1.name}</option>
                                                     <option value="${bet.country2.id}">${bet.country2.name}</option>
                                                     <option value="${bet.country3.id}">${bet.country3.name}</option>
                                                     <option value="${bet.country4.id}">${bet.country4.name}</option>
                                                 </select>
-                                                2. <select name="2">
+                                                2. <select name="c2">
                                                     <option value="${bet.country2.id}">${bet.country2.name}</option>
                                                     <option value="${bet.country1.id}">${bet.country1.name}</option>
                                                     <option value="${bet.country3.id}">${bet.country3.name}</option>
                                                     <option value="${bet.country4.id}">${bet.country4.name}</option>
                                                 </select>
-                                                3. <select name="3">
+                                                3. <select name="c3">
                                                     <option value="${bet.country3.id}">${bet.country3.name}</option>
                                                     <option value="${bet.country1.id}">${bet.country1.name}</option>
                                                     <option value="${bet.country2.id}">${bet.country2.name}</option>
                                                     <option value="${bet.country4.id}">${bet.country4.name}</option>
                                                 </select>
-                                                4. <select name="4">
+                                                4. <select name="c4">
                                                     <option value="${bet.country4.id}">${bet.country4.name}</option>
                                                     <option value="${bet.country1.id}">${bet.country1.name}</option>
                                                     <option value="${bet.country2.id}">${bet.country2.name}</option>

@@ -359,8 +359,8 @@ public class BetslyServlet extends HttpServlet {
                 int betID = Integer.parseInt(tokens[0]);
                 int groupID = Integer.parseInt(tokens[1]);
                 DB_Access.getInstance().closeBetGroupPhase(betID);
-                DB_Access.getInstance().distributePointsGroup(request.getParameter("1"), request.getParameter("2"), 
-                        request.getParameter("3"),request.getParameter("4"), betID, groupID);
+                DB_Access.getInstance().distributePointsGroup(request.getParameter("c1"), request.getParameter("c2"), 
+                        request.getParameter("c3"),request.getParameter("c4"), betID, groupID);
             } catch (SQLException ex) {
                 System.out.println(ex.toString());
             }
