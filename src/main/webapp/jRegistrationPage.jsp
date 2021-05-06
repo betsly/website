@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link href="styleRegister.css" rel="stylesheet" type="text/css"/>
+        <link href="registerStyle.css" rel="stylesheet" type="text/css"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <script src="betslyScript.js" type="text/javascript"></script>
         <title>Registrieren</title>
