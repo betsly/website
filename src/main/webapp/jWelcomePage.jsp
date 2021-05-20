@@ -20,6 +20,7 @@
             <c:when test="${jwtUser == null}">
                 <input type="submit" value="Registrieren" name="registration"/>
                 <input type="submit" value="Login" name="login" />
+                <input type="submit" value="hallo" name="shd"/> 
             </c:when>
             <c:otherwise>
                 <input type="submit" value="show groups" name="showGroups" />
