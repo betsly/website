@@ -1,3 +1,15 @@
-body{
+.divbuttons{
+    width: 100%;
+    text-align: center;
+/*    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);*/
     
+}
+.bt{
+    height: 200px;
+    width: 500px;
 }

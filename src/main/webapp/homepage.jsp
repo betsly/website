@@ -17,8 +17,8 @@
             <img id="picture" src="Group_7.png"/>
             <p id="title">Wilkommen bei Betsly!<p>
             <a id="description">Betsly garantiert großen Wettspaß!</a>
-            <div class="divbuttons"><input type="submit" value="Registrieren" name="registration"/></di>
-            <div class="divbuttons"><input type="submit" value="Login" name="login" /></div>
+            <div class="divbuttons"><input class="bt" type="submit" value="Registrieren" name="registration"/></di>
+            <div class="divbuttons"><input class="bt" type="submit" value="Login" name="login" /></div>
         </form>
     </body>
 </html>
