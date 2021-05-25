@@ -154,6 +154,8 @@ public class BetslyServlet extends HttpServlet {
             }
             request.getRequestDispatcher("jMakeBetGroupPage.jsp").forward(request, response);
 
+        } else if(request.getParameter("logout") != null){
+            request.getRequestDispatcher("homepage.jsp").forward(request, response);
         } else {
             request.getRequestDispatcher("jWelcomePage.jsp").forward(request, response);
         }
@@ -214,6 +216,7 @@ public class BetslyServlet extends HttpServlet {
             }
             if (password.hashCode() == pwCompare && pwCompare != -1) {
                 jwtUser = JWT.createJWT(email, email, "login-success", 1000000000);
+                request.setAttribute("username", JWT.decodeJWT(jwtUser).getId());
             } else {
                 request.setAttribute("test", pwCompare + " " + password.hashCode());
             }
