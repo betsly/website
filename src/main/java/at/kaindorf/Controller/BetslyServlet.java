@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -123,7 +124,7 @@ public class BetslyServlet extends HttpServlet {
 
             // Create Bet
         } else if (request.getParameter("createBetForm") != null || (request.getParameter("betType") != null && request.getParameter("createBetDB") == null)) {
-            groupIdCreateBet = request.getParameter("createBetForm") != null ? Integer.parseInt(request.getParameter("createBetForm").replace("create Bet", "")) : groupIdCreateBet;
+            groupIdCreateBet = request.getParameter("createBetForm") != null ? Integer.parseInt(request.getParameter("createBetForm")) : groupIdCreateBet;
             request.setAttribute("betType", request.getParameter("betType") != null ? request.getParameter("betType") : "group");
             request.getRequestDispatcher("jCreateBetPage.jsp").forward(request, response);
 
@@ -156,7 +157,10 @@ public class BetslyServlet extends HttpServlet {
 
         } else if(request.getParameter("logout") != null){
             request.getRequestDispatcher("homepage.jsp").forward(request, response);
-        } else {
+        } else if(request.getParameter("showGroupsForm")!=null){
+            request.getRequestDispatcher("jShowJoinedGroupsPage.jsp").forward(request, response);
+        }
+        else {
             request.getRequestDispatcher("jWelcomePage.jsp").forward(request, response);
         }
 
@@ -267,10 +271,10 @@ public class BetslyServlet extends HttpServlet {
             //--------------
             // show Group 
             //--------------
-        } else if (request.getParameter("showGroups") != null) {
+        } else if (request.getParameter("showGroupsForm") != null) {
             try {
                 joinedGroups = DB_Access.getInstance().getJoinedGroups(JWT.decodeJWT(jwtUser).getId());
-                request.setAttribute("joinedGroups", joinedGroups);
+                request.getSession().setAttribute("joinedGroups", joinedGroups);
             } catch (SQLException ex) {
                 databaseError = true;
             } catch (IllegalArgumentException e) {
