@@ -160,7 +160,7 @@ public class BetslyServlet extends HttpServlet {
             request.getRequestDispatcher("homepage.jsp").forward(request, response);
         } else if (request.getParameter("showGroupsForm") != null) {
             request.getRequestDispatcher("jShowJoinedGroupsPage.jsp").forward(request, response);
-        } else if (request.getParameter("showDetail") != null || request.getParameter("createBetDB") != null 
+        } else if (request.getParameter("showDetail") != null || request.getParameter("createBetDB") != null
                 || request.getParameter("makeBetDBKO") != null || request.getParameter("makeBetDBGroup") != null
                 || request.getParameter("closeBetGroup") != null || request.getParameter("closeBetKO") != null) {
             request.getRequestDispatcher("jShowGroupDetail.jsp").forward(request, response);
@@ -349,15 +349,16 @@ public class BetslyServlet extends HttpServlet {
         } //--------------
         // Close Bet KO
         //--------------
-        else if (request.getParameter("closeBetKO") != null
-                && (request.getParameter("scoreClose") != null && !request.getParameter("scoreClose").trim().equals(""))) {
+        else if (request.getParameter("closeBetKO") != null) {
             try {
                 String tokens[] = request.getParameter("closeBetKO").split(" ");
                 int betID = Integer.parseInt(tokens[0]);
                 int groupID = Integer.parseInt(tokens[1]);
                 DB_Access.getInstance().closeBetKOPhase(betID);
-                String[] endScore = request.getParameter("scoreClose").split(":");
-                DB_Access.getInstance().distributePointsKO(request.getParameter("winner"), endScore, betID, groupID);
+                if (request.getParameter("scoreClose") != null && !request.getParameter("scoreClose").trim().equals("")) {
+                    String[] endScore = request.getParameter("scoreClose").split(":");
+                    DB_Access.getInstance().distributePointsKO(request.getParameter("winner"), endScore, betID, groupID);
+                }
             } catch (SQLException ex) {
                 System.out.println(ex.toString());
             }
@@ -375,12 +376,12 @@ public class BetslyServlet extends HttpServlet {
             } catch (SQLException ex) {
                 System.out.println(ex.toString());
             }
-        } 
+        }
 
         //--------------
         // Show bets 
         //--------------
-        if (request.getParameter("showDetail") != null || request.getParameter("createBetDB") != null 
+        if (request.getParameter("showDetail") != null || request.getParameter("createBetDB") != null
                 || request.getParameter("makeBetDBKO") != null || request.getParameter("makeBetDBGroup") != null
                 || request.getParameter("closeBetGroup") != null || request.getParameter("closeBetKO") != null) {
             betListKO = new ArrayList<>();
