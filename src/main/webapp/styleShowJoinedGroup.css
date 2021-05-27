@@ -86,6 +86,7 @@
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
   width: 50%;
+  font-size: 15px;
   text-align: center;
   margin-left: auto;
   margin-right: auto;
@@ -97,14 +98,16 @@
   color: rgba(44,177,136,1);
 }
 .text{
-    text-align: left;
+    text-align: center;
 }
 .number{
     text-align: center;
 }
-#grouptable tr:nth-child(even){background-color: #f2f2f2;}
+/*#grouptable tr:nth-child(even){background-color: #f2f2f2;}*/
 
-#grouptable tr:hover {background-color: #ddd;}
+/*#grouptable tr:hover {
+    background-color: #ddd;
+}*/
 
 #grouptable th {
   border: 1px solid #ddd;
@@ -114,6 +117,34 @@
   text-align: center;
   background-color: rgba(44,177,136,1);
   color: white;
+}
+.bt1{
+    width: 150px;
+    height: 50px;
+    box-sizing: border-box;
+    border: none;
+    font-family: Wagner Modern;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    color: rgba(44,177,136,1);
+    background-color: rgba(43,49,52,1);
+}
+.bt{
+  
+    width: 150px;
+    height: 50px;
+    box-sizing: border-box;
+    border: none;
+    font-family: Wagner Modern;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    color: white;
+    background-color: rgba(43,49,52,1);
+    
+
+
 }
 
 
