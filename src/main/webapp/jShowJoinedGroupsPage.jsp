@@ -13,9 +13,9 @@
         <link href="styleShowJoinedGroup.css" rel="stylesheet" type="text/css"/>
         <title>Joined Groups</title>
     </head>
-    <body>
+    <body style="background-color: rgba(43,49,52,1)">
 
-       <!-- <div id="football">
+       <div id="football">
             <div id="Group_36">
                 <div id="Group_55">
                     <div id="Group_47">
@@ -201,20 +201,38 @@
             <img id="Group_7" src="Group_7.png" srcset="Group_7.png 1x, Group_7@2x.png 2x">
 
             </svg>
-        </div> -->
+        </div> 
         <form action="./BetslyServlet" method="post">
             <c:if test="${joinedGroups != null}">
-                <h1>Joined Groups</h1>
+                <p class="title">Joined Groups</p>
                 <ul id="groups">
+                    <div class="tablediv">
+                    <table id="grouptable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Gruppen Name</th>
+                                <th>Host</th>
+                                <th>Punkte</th>
+                                <th>Beschreibung</th>
+                                <th>Wetten anzeigen</th>
+                                <th></th>
+                               
+                            </tr>
+                        </thead>
+                        <tbody>
                     <c:forEach var="group" items="${joinedGroups}">
+                        <tr>
                         <li>
                             <div class="groupName">
-                                <h3>${group.id}: ${group.name}</h3>
+                                <td class="number">${group.id}</td>
+                                <td class="text">${group.name}</td>
                             </div>
-                            <details>
-                                <p>${group.description}</p>
-                                <p>Punkte: ${group.points}</p>
-                                <p>Host: ${group.host}</p>
+                       
+                        <td class="text"><p>${group.host}</p></td>
+                        <td class="number"><p>${group.points}</p></td>
+                        <td class="text"><p>${group.description}</p></td>
+                        <td><button  type="submit" value="${group.id}" name="showBets" >Wetten anzeigen</button></td>
                                 <c:forEach var="entry" items="${betMapGroupPhase}">
                                     <c:if test="${entry.key == group.id && entry.value.size() > 0}">
                                         Group Phase Bets
@@ -274,12 +292,19 @@
                                         </c:forEach>
                                     </c:if>
                                 </c:forEach>
-                            </details>
+                           
+                        </th>
                         <c:if test="${jwtUser.equals(group.host)}">
+                            
+                            <td class="tdButton">
                             <button  type="submit" value="${group.id}" name="createBetForm" >create Bet</button>
+                            </td>
                         </c:if>
+                            
                         </li>
                     </c:forEach>
+                    </table>
+                        </div>
                 </ul>
             </c:if>
         </form>
