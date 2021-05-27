@@ -15,7 +15,7 @@
     </head>
     <body style="background-color: rgba(43,49,52,1)">
 
-       <div id="football">
+        <div id="football">
             <div id="Group_36">
                 <div id="Group_55">
                     <div id="Group_47">
@@ -207,68 +207,59 @@
                 <p class="title">Joined Groups</p>
                 <ul id="groups">
                     <div class="tablediv">
-                    <table id="grouptable">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Gruppen Name</th>
-                                <th>Host</th>
-                                <th>Punkte</th>
-                                <th>Beschreibung</th>
-                                <th>Wetten anzeigen</th>
-                                <th></th>
-                               
-                            </tr>
-                        </thead>
-                        <tbody>
-                    <c:forEach var="group" items="${joinedGroups}">
-                        <tr>
-                        <li>
-                            <div class="groupName">
-                                <td class="number">${group.id}</td>
-                                <td class="text">${group.name}</td>
-                            </div>
-                       
-                        <td class="text"><p>${group.host}</p></td>
-                        <td class="number"><p>${group.points}</p></td>
-                        <td class="text"><p>${group.description}</p></td>
-                        <td><button class="bt1" type="submit" value="${group.id}" name="showBets" >Wetten anzeigen</button></td>
-                               
-                                    </c:if>
+                        <table id="grouptable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Gruppen Name</th>
+                                    <th>Host</th>
+                                    <th>Punkte</th>
+                                    <th>Beschreibung</th>
+                                    <th>Ranking</th>
+                                    <th>Wetten anzeigen</th>
+                                    <th></th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach var="group" items="${joinedGroups}">
+                                    <tr>
+                                <li>
+                                    <div class="groupName">
+                                        <td class="number">${group.id}</td>
+                                        <td class="text">${group.name}</td>
+                                    </div>
+
+                                <td class="text"><p>${group.host}</p></td>
+                                <td class="number"><p>${group.points}</p></td>
+                                <td class="text"><p>${group.description}</p></td>
+                                <c:set var="counter" value="1"></c:set>
+                                <c:forEach var="rank" items="${ranks}">
+                                    <c:if test="${counter < 4}">
+                                     <td class="text"><p>${counter}.Platz: ${rank.userID} </p></td>
+                                     <c:set var="counter" value="${counter+1}"></c:set>
+                                    </c:if> 
+                                   
                                 </c:forEach>
-                                <c:forEach var="entry" items="${betMapKOPhase}">
-                                    <c:if test="${entry.key == group.id && entry.value.size() > 0}">
-                                        Ko Phase Bets
-                                        <c:forEach var="bet" items="${entry.value}">
-                                            <c:if test="${bet.closed != null && !bet.closed}">
-                                                <p>Bet ${bet.betId}: 
-                                                    ${bet.name} <button type="submit" value="makeBet: ${bet.betId} ${group.id}" name="makeBetKO">make Bet</button>
-                                                </p>
-                                                <c:if test="${jwtUser.equals(group.host)}">
-                                                    Gewinner: <select name="winner">
-                                                        <option value="${bet.country1.id}">${bet.country1.name}</option>
-                                                        <option value="${bet.country2.id}">${bet.country2.name}</option>
-                                                    </select>
-                                                    Endergebnis: <input type="text" name="endscore" value="" placeholder="0:0"/>
-                                                    <button type="submit" value="${bet.betId} ${group.id}" name="closeBetKO" >close Bet</button>
-                                                </c:if>
-                                            </c:if>
-                                        </c:forEach>
-                                    </c:if>
-                                </c:forEach>
-                           
-                        </th>
-                        <c:if test="${jwtUser.equals(group.host)}">
-                            
-                            <td class="tdButton">
-                            <button  class="bt1" type="submit" value="${group.id}" name="createBetForm" >create Bet</button>
-                            </td>
-                        </c:if>
-                            
-                        </li>
-                    </c:forEach>
-                    </table>
-                        </div>
+                                
+                                
+                                <td><button class="bt1" type="submit" value="${group.id}" name="showBets" >Wetten anzeigen</button></td>
+
+
+
+
+                                </th>
+                                <c:if test="${jwtUser.equals(group.host)}">
+
+                                    <td class="tdButton">
+                                        <button  class="bt1" type="submit" value="${group.id}" name="createBetForm" >create Bet</button>
+                                    </td>
+                                </c:if>
+
+                                </li>
+                            </c:forEach>
+                        </table>
+                    </div>
                 </ul>
             </c:if>
         </form>
