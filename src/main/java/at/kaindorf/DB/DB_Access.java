@@ -9,6 +9,7 @@ import at.kaindorf.beans.BetGroupPhase;
 import at.kaindorf.beans.BetKoPhase;
 import at.kaindorf.beans.Country;
 import at.kaindorf.beans.Group;
+import at.kaindorf.beans.GroupUser;
 import at.kaindorf.beans.User;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -440,5 +441,19 @@ public class DB_Access {
             points = 0;
         }
         return numDataSets > 0;
+    }
+    
+    public List<GroupUser> getRanks() throws SQLException{
+        List<GroupUser> groupUList = new ArrayList<>();
+        String sql = "SELECT * FROM ;";
+        Statement prep = db.getStatement();
+        ResultSet rs = prep.executeQuery(sql);
+        while (rs.next()) {
+            int points = rs.getInt("points");
+            String userID = rs.getString("user_id");
+            int groupID = rs.getInt("group_id");
+            groupUList.add(new GroupUser(groupID, userID, points));
+        }
+        return groupUList;
     }
 }
