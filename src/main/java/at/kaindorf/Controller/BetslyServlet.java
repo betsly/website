@@ -220,8 +220,11 @@ public class BetslyServlet extends HttpServlet {
                 databaseError = true;
             }
             if (password.hashCode() == pwCompare && pwCompare != -1) {
-                jwtUser = JWT.createJWT(email, email, "login-success", 1000000000);
-                request.setAttribute("username", JWT.decodeJWT(jwtUser).getId());
+                try {
+                    jwtUser = JWT.createJWT(email, DB_Access.getInstance().getUsernameByEmail(email), "login-success", 1000000000);
+                } catch (SQLException ex) {
+                    Logger.getLogger(BetslyServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }         
             } else {
                 request.setAttribute("test", pwCompare + " " + password.hashCode());
             }
@@ -381,16 +384,20 @@ public class BetslyServlet extends HttpServlet {
             betMapGroup = new HashMap<>();
             betMapKo = new HashMap<>();
             Map<Integer, Integer> points = new HashMap<>();
-            for (Group group : joinedGroups) {
+            joinedGroups.forEach(group -> {
                 try {
                     betMapGroup.put(group.getId(), DB_Access.getInstance().getGroupPhaseBetsByGroup(group.getId()));
                     betMapKo.put(group.getId(), DB_Access.getInstance().getKOPhaseBetsByGroup(group.getId()));
                 } catch (SQLException ex) {
                     System.out.println(ex.toString());
                 }
-            }
+            });
             request.getSession().setAttribute("betMapGroupPhase", betMapGroup);
             request.getSession().setAttribute("betMapKOPhase", betMapKo);
+        }
+        
+        if(!jwtUser.equals("")){
+            request.setAttribute("username", JWT.decodeJWT(jwtUser).getIssuer());
         }
         processRequest(request, response);
     }

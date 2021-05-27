@@ -445,7 +445,7 @@ public class DB_Access {
     
     public List<GroupUser> getRanksForUser(String user) throws SQLException{
         List<GroupUser> groupUList = new ArrayList<>();
-        String sql = "SELECT * FROM group_user;";
+        String sql = "SELECT * FROM group_user WHERE user_id = " + user + ";";
         Statement prep = db.getStatement();
         ResultSet rs = prep.executeQuery(sql);
         while (rs.next()) {
@@ -456,5 +456,17 @@ public class DB_Access {
         }
         groupUList.sort((c1, c2) -> c2.getPoints() - c1.getPoints());
         return groupUList;
+    }
+    
+    public String getUsernameByEmail(String email) throws SQLException{
+        String username = "";
+        String sql = "SELECT * FROM group_user;";
+        Statement prep = db.getStatement();
+        ResultSet rs = prep.executeQuery(sql);
+        while (rs.next()) {
+            username = rs.getString("username");
+
+        }
+        return username;
     }
 }
