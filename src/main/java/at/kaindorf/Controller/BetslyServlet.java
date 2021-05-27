@@ -202,9 +202,9 @@ public class BetslyServlet extends HttpServlet {
             String username = request.getParameter("username");
             String passwort = request.getParameter("password");
             String email = request.getParameter("email");
-
             try {
                 DB_Access.getInstance().insertUser(new User(email, username, passwort));
+                jwtUser = JWT.createJWT(email, DB_Access.getInstance().getUsernameByEmail(email), "login-success", 1000000000);
             } catch (SQLException ex) {
                 databaseError = true;
             }

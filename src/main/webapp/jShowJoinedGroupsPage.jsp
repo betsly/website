@@ -236,7 +236,6 @@
                     </div>
                 </ul>
             </c:if>
-                 <button class="makeBet" type="submit" value="zurück" name="back" onclick="window.history.back()">zurück</button>
         </form>
     </body>
 </html>
