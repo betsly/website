@@ -1098,7 +1098,7 @@
     overflow: visible;
     --web-animation: fadein 0.3s ease-out;
     --web-action-type: page;
-    --web-action-target: Login.html;
+    
     cursor: pointer;
 }
 #Rounded_button {
@@ -1142,7 +1142,7 @@
     white-space: nowrap;
     --web-animation: fadein 0.2s snap;
     --web-action-type: page;
-    --web-action-target: Login.html;
+   
     cursor: pointer;
     text-align: center;
     font-family: FreightSans Pro;
