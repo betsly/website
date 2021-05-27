@@ -443,24 +443,26 @@ public class DB_Access {
         return numDataSets > 0;
     }
     
-    public List<GroupUser> getRanksForUser(String user) throws SQLException{
+    public List<GroupUser> getRanksForUser(int groupId) throws SQLException{
         List<GroupUser> groupUList = new ArrayList<>();
-        String sql = "SELECT * FROM group_user WHERE user_id = " + user + ";";
+        String sql = "SELECT *\n"
+                + "FROM group_user\n"
+                + "WHERE group_id = '" + groupId + "'\n"
+                + "ORDER BY points DESC;";
         Statement prep = db.getStatement();
         ResultSet rs = prep.executeQuery(sql);
         while (rs.next()) {
             int points = rs.getInt("points");
-            String userID = rs.getString("user_id");
+            String username = getUsernameByEmail(rs.getString("user_id"));
             int groupID = rs.getInt("group_id");
-            groupUList.add(new GroupUser(groupID, userID, points));
+            groupUList.add(new GroupUser(groupID, username, points));
         }
-        groupUList.sort((c1, c2) -> c2.getPoints() - c1.getPoints());
         return groupUList;
     }
     
     public String getUsernameByEmail(String email) throws SQLException{
         String username = "";
-        String sql = "SELECT * FROM group_user;";
+        String sql = "SELECT * FROM user_account WHERE email = '" + email + "';";
         Statement prep = db.getStatement();
         ResultSet rs = prep.executeQuery(sql);
         while (rs.next()) {

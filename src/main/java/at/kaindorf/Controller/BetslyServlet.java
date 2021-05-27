@@ -44,10 +44,11 @@ public class BetslyServlet extends HttpServlet {
     private List<Country> countries = new ArrayList<>();
     private List<Group> joinedGroups = null;
     private int groupIdCreateBet;
+    int groupIDShowBets;
     private int betIdMakeBetKO;
     private int betIdMakeBetGroup;
-    Map<Integer, List<BetGroupPhase>> betMapGroup;
-    Map<Integer, List<BetKoPhase>> betMapKo;
+    List<BetKoPhase> betListKO;
+    List<BetGroupPhase> betListGroup;
     private boolean createGroupError = false;
     private boolean databaseError = false;
     private boolean joinGroupError = false;
@@ -102,9 +103,9 @@ public class BetslyServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         // Set User
         try {
-            request.setAttribute("jwtUser", JWT.decodeJWT(jwtUser).getId());
+            request.setAttribute("userID", JWT.decodeJWT(jwtUser).getId());
         } catch (IllegalArgumentException e) {
-            request.setAttribute("jwtUser", null);
+            request.setAttribute("userID", null);
         }
         // Registration 
         if (request.getParameter("registration") != null) {
@@ -136,7 +137,7 @@ public class BetslyServlet extends HttpServlet {
         } else if (request.getParameter("makeBetKO") != null) {
             String[] tokens = request.getParameter("makeBetKO").split(" ");
             betIdMakeBetKO = Integer.parseInt(tokens[1]);
-            for (BetKoPhase betKoPhase : betMapKo.get(Integer.parseInt(tokens[2]))) {
+            for (BetKoPhase betKoPhase : betListKO) {
                 if (betKoPhase.getBetId() == Integer.parseInt(tokens[1])) {
                     request.setAttribute("bet", betKoPhase);
                     break;
@@ -147,7 +148,7 @@ public class BetslyServlet extends HttpServlet {
         } else if (request.getParameter("makeBetGroup") != null) {
             String[] tokens = request.getParameter("makeBetGroup").split(" ");
             betIdMakeBetGroup = Integer.parseInt(tokens[1]);
-            for (BetGroupPhase betGroupPhase : betMapGroup.get(Integer.parseInt(tokens[2]))) {
+            for (BetGroupPhase betGroupPhase : betListGroup) {
                 if (betGroupPhase.getId() == Integer.parseInt(tokens[1])) {
                     request.setAttribute("bet", betGroupPhase);
                     break;
@@ -155,14 +156,15 @@ public class BetslyServlet extends HttpServlet {
             }
             request.getRequestDispatcher("jMakeBetGroupPage.jsp").forward(request, response);
 
-        } else if(request.getParameter("logout") != null){
+        } else if (request.getParameter("logout") != null) {
             request.getRequestDispatcher("homepage.jsp").forward(request, response);
-        } else if(request.getParameter("showGroupsForm")!=null){
+        } else if (request.getParameter("showGroupsForm") != null) {
             request.getRequestDispatcher("jShowJoinedGroupsPage.jsp").forward(request, response);
-        } else if(request.getParameter("showBets") != null  && joinedGroups != null && !joinedGroups.isEmpty()){
-            request.getRequestDispatcher("jShowBets").forward(request, response);
-        }
-        else {
+        } else if (request.getParameter("showDetail") != null || request.getParameter("createBetDB") != null 
+                || request.getParameter("makeBetDBKO") != null || request.getParameter("makeBetDBGroup") != null
+                || request.getParameter("closeBetGroup") != null || request.getParameter("closeBetKO") != null) {
+            request.getRequestDispatcher("jShowGroupDetail.jsp").forward(request, response);
+        } else {
             request.getRequestDispatcher("jWelcomePage.jsp").forward(request, response);
         }
     }
@@ -224,7 +226,7 @@ public class BetslyServlet extends HttpServlet {
                     jwtUser = JWT.createJWT(email, DB_Access.getInstance().getUsernameByEmail(email), "login-success", 1000000000);
                 } catch (SQLException ex) {
                     Logger.getLogger(BetslyServlet.class.getName()).log(Level.SEVERE, null, ex);
-                }         
+                }
             } else {
                 request.setAttribute("test", pwCompare + " " + password.hashCode());
             }
@@ -279,7 +281,6 @@ public class BetslyServlet extends HttpServlet {
             try {
                 joinedGroups = DB_Access.getInstance().getJoinedGroups(JWT.decodeJWT(jwtUser).getId());
                 request.getSession().setAttribute("joinedGroups", joinedGroups);
-                request.getSession().setAttribute("ranks", DB_Access.getInstance().getRanksForUser(JWT.decodeJWT(jwtUser).getId()));
             } catch (SQLException ex) {
                 databaseError = true;
             } catch (IllegalArgumentException e) {
@@ -345,24 +346,22 @@ public class BetslyServlet extends HttpServlet {
                 request.setAttribute("exe", ex);
             }
 
-        } 
-        //--------------
+        } //--------------
         // Close Bet KO
         //--------------
         else if (request.getParameter("closeBetKO") != null
-                && (request.getParameter("endscore") != null || !request.getParameter("endscore").trim().equals(""))) {
+                && (request.getParameter("scoreClose") != null && !request.getParameter("scoreClose").trim().equals(""))) {
             try {
                 String tokens[] = request.getParameter("closeBetKO").split(" ");
                 int betID = Integer.parseInt(tokens[0]);
                 int groupID = Integer.parseInt(tokens[1]);
                 DB_Access.getInstance().closeBetKOPhase(betID);
-                String[] endScore = request.getParameter("endscore").split(":");
+                String[] endScore = request.getParameter("scoreClose").split(":");
                 DB_Access.getInstance().distributePointsKO(request.getParameter("winner"), endScore, betID, groupID);
             } catch (SQLException ex) {
                 System.out.println(ex.toString());
             }
-        }
-        //--------------
+        } //--------------
         // Close Bet Group
         //--------------
         else if (request.getParameter("closeBetGroup") != null) {
@@ -371,35 +370,44 @@ public class BetslyServlet extends HttpServlet {
                 int betID = Integer.parseInt(tokens[0]);
                 int groupID = Integer.parseInt(tokens[1]);
                 DB_Access.getInstance().closeBetGroupPhase(betID);
-                DB_Access.getInstance().distributePointsGroup(request.getParameter("c1"), request.getParameter("c2"), 
-                        request.getParameter("c3"),request.getParameter("c4"), betID, groupID);
+                DB_Access.getInstance().distributePointsGroup(request.getParameter("c1"), request.getParameter("c2"),
+                        request.getParameter("c3"), request.getParameter("c4"), betID, groupID);
+            } catch (SQLException ex) {
+                System.out.println(ex.toString());
+            }
+        } 
+
+        //--------------
+        // Show bets 
+        //--------------
+        if (request.getParameter("showDetail") != null || request.getParameter("createBetDB") != null 
+                || request.getParameter("makeBetDBKO") != null || request.getParameter("makeBetDBGroup") != null
+                || request.getParameter("closeBetGroup") != null || request.getParameter("closeBetKO") != null) {
+            betListKO = new ArrayList<>();
+            betListGroup = new ArrayList<>();
+            groupIDShowBets = request.getParameter("showDetail") != null ? Integer.parseInt(request.getParameter("showDetail")) : groupIDShowBets;
+            for (Group group : joinedGroups) {
+                if (groupIDShowBets == group.getId()) {
+                    request.getSession().setAttribute("currentGroup", group);
+                }
+            }
+            try {
+                betListKO.addAll(DB_Access.getInstance().getKOPhaseBetsByGroup(groupIDShowBets));
+                betListGroup.addAll(DB_Access.getInstance().getGroupPhaseBetsByGroup(groupIDShowBets));
+                request.getSession().setAttribute("betListGroup", betListGroup);
+                request.getSession().setAttribute("betListKo", betListKO);
+                request.getSession().setAttribute("ranks", DB_Access.getInstance().getRanksForUser(groupIDShowBets));
             } catch (SQLException ex) {
                 System.out.println(ex.toString());
             }
         }
-        //--------------
-        // Show bets 
-        //--------------
-        else if (request.getParameter("showBets") != null  && joinedGroups != null && !joinedGroups.isEmpty()) {
-            betMapGroup = new HashMap<>();
-            betMapKo = new HashMap<>();
-            Map<Integer, Integer> points = new HashMap<>();
-            joinedGroups.forEach(group -> {
-                try {
-                    betMapGroup.put(group.getId(), DB_Access.getInstance().getGroupPhaseBetsByGroup(group.getId()));
-                    betMapKo.put(group.getId(), DB_Access.getInstance().getKOPhaseBetsByGroup(group.getId()));
-                } catch (SQLException ex) {
-                    System.out.println(ex.toString());
-                }
-            });
-            request.getSession().setAttribute("betMapGroupPhase", betMapGroup);
-            request.getSession().setAttribute("betMapKOPhase", betMapKo);
-        }
-        
-        if(!jwtUser.equals("")){
+
+        if (!jwtUser.equals("")) {
             request.setAttribute("username", JWT.decodeJWT(jwtUser).getIssuer());
         }
+
         processRequest(request, response);
+
     }
 
     /**

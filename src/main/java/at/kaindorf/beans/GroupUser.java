@@ -20,6 +20,6 @@ import lombok.NoArgsConstructor;
 
 public class GroupUser {
     private int groupID;
-    private String userID;
+    private String username;
     private int points;
 }

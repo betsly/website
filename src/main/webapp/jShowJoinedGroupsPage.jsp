@@ -215,49 +215,23 @@
                                     <th>Host</th>
                                     <th>Punkte</th>
                                     <th>Beschreibung</th>
-                                    <th>Ranking</th>
-                                    <th>Wetten anzeigen</th>
-                                    <th></th>
 
                                 </tr>
                             </thead>
                             <tbody>
                                 <c:forEach var="group" items="${joinedGroups}">
                                     <tr>
-                                <li>
-                                    <div class="groupName">
-                                        <td class="number">${group.id}</td>
-                                        <td class="text">${group.name}</td>
-                                    </div>
-
-                                <td class="text"><p>${group.host}</p></td>
-                                <td class="number"><p>${group.points}</p></td>
-                                <td class="text"><p>${group.description}</p></td>
-                                <c:set var="counter" value="1"></c:set>
-                                <c:forEach var="rank" items="${ranks}">
-                                    <c:if test="${counter < 4}">
-                                     <td class="text"><p>${counter}.Platz: ${rank.userID} </p></td>
-                                     <c:set var="counter" value="${counter+1}"></c:set>
-                                    </c:if> 
-                                   
+                                        <div class="groupName">
+                                            <td class="number">${group.id}</td>
+                                            <td class="text"><button class="bt1" type="submit" value="${group.id}" name="showDetail" >${group.name}</button></td>
+                                        </div>
+                                        <td class="text"><p>${group.host}</p></td>
+                                        <td class="number"><p>${group.points}</p></td>
+                                        <td class="text"><p>${group.description}</p></td>
+                              
+                                    </tr>
                                 </c:forEach>
-                                
-                                
-                                <td><button class="bt1" type="submit" value="${group.id}" name="showBets" >Wetten anzeigen</button></td>
-
-
-
-
-                                </th>
-                                <c:if test="${jwtUser.equals(group.host)}">
-
-                                    <td class="tdButton">
-                                        <button  class="bt1" type="submit" value="${group.id}" name="createBetForm" >create Bet</button>
-                                    </td>
-                                </c:if>
-
-                                </li>
-                            </c:forEach>
+                            </tbody>
                         </table>
                     </div>
                 </ul>
