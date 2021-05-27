@@ -232,7 +232,7 @@
                         <td class="text"><p>${group.host}</p></td>
                         <td class="number"><p>${group.points}</p></td>
                         <td class="text"><p>${group.description}</p></td>
-                        <td><button  type="submit" value="${group.id}" name="showBets" >Wetten anzeigen</button></td>
+                        <td><button class="bt1" type="submit" value="${group.id}" name="showBets" >Wetten anzeigen</button></td>
                                 <c:forEach var="entry" items="${betMapGroupPhase}">
                                     <c:if test="${entry.key == group.id && entry.value.size() > 0}">
                                         Group Phase Bets
@@ -297,7 +297,7 @@
                         <c:if test="${jwtUser.equals(group.host)}">
                             
                             <td class="tdButton">
-                            <button  type="submit" value="${group.id}" name="createBetForm" >create Bet</button>
+                            <button  class="bt1" type="submit" value="${group.id}" name="createBetForm" >create Bet</button>
                             </td>
                         </c:if>
                             
