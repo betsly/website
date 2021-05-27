@@ -97,6 +97,25 @@
     filter: drop-shadow(5px 5px 9px rgba(0, 0, 0, 0.149));
 }
 
+.back{
+    width: 150px;
+    height: 30px;
+    margin: 15px;
+    padding: 0;
+    position: absolute;
+    top: 60%;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 30px;
+    font-family: Wagner Modern;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    color: rgba(44,177,136,1);
+    background-color: rgba(43,49,52,1);
+    filter: drop-shadow(5px 5px 9px rgba(0, 0, 0, 0.149));
+}
+
 .text2{
     position: relative;
     text-align: center;
