@@ -159,11 +159,12 @@ public class BetslyServlet extends HttpServlet {
             request.getRequestDispatcher("homepage.jsp").forward(request, response);
         } else if(request.getParameter("showGroupsForm")!=null){
             request.getRequestDispatcher("jShowJoinedGroupsPage.jsp").forward(request, response);
+        } else if(request.getParameter("showBets") != null  && joinedGroups != null && !joinedGroups.isEmpty()){
+            request.getRequestDispatcher("jShowBets").forward(request, response);
         }
         else {
             request.getRequestDispatcher("jWelcomePage.jsp").forward(request, response);
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -275,6 +276,7 @@ public class BetslyServlet extends HttpServlet {
             try {
                 joinedGroups = DB_Access.getInstance().getJoinedGroups(JWT.decodeJWT(jwtUser).getId());
                 request.getSession().setAttribute("joinedGroups", joinedGroups);
+                request.getSession().setAttribute("ranks", DB_Access.getInstance().getRanksForUser(JWT.decodeJWT(jwtUser).getId()));
             } catch (SQLException ex) {
                 databaseError = true;
             } catch (IllegalArgumentException e) {
@@ -375,7 +377,7 @@ public class BetslyServlet extends HttpServlet {
         //--------------
         // Show bets 
         //--------------
-        if (joinedGroups != null && !joinedGroups.isEmpty()) {
+        else if (request.getParameter("showBets") != null  && joinedGroups != null && !joinedGroups.isEmpty()) {
             betMapGroup = new HashMap<>();
             betMapKo = new HashMap<>();
             Map<Integer, Integer> points = new HashMap<>();
@@ -384,11 +386,11 @@ public class BetslyServlet extends HttpServlet {
                     betMapGroup.put(group.getId(), DB_Access.getInstance().getGroupPhaseBetsByGroup(group.getId()));
                     betMapKo.put(group.getId(), DB_Access.getInstance().getKOPhaseBetsByGroup(group.getId()));
                 } catch (SQLException ex) {
-                    databaseError = true;
+                    System.out.println(ex.toString());
                 }
             }
-            request.setAttribute("betMapGroupPhase", betMapGroup);
-            request.setAttribute("betMapKOPhase", betMapKo);
+            request.getSession().setAttribute("betMapGroupPhase", betMapGroup);
+            request.getSession().setAttribute("betMapKOPhase", betMapKo);
         }
         processRequest(request, response);
     }

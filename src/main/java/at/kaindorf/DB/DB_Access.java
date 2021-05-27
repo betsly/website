@@ -443,9 +443,9 @@ public class DB_Access {
         return numDataSets > 0;
     }
     
-    public List<GroupUser> getRanks() throws SQLException{
+    public List<GroupUser> getRanksForUser(String user) throws SQLException{
         List<GroupUser> groupUList = new ArrayList<>();
-        String sql = "SELECT * FROM ;";
+        String sql = "SELECT * FROM group_user;";
         Statement prep = db.getStatement();
         ResultSet rs = prep.executeQuery(sql);
         while (rs.next()) {
@@ -454,6 +454,7 @@ public class DB_Access {
             int groupID = rs.getInt("group_id");
             groupUList.add(new GroupUser(groupID, userID, points));
         }
+        groupUList.sort((c1, c2) -> c2.getPoints() - c1.getPoints());
         return groupUList;
     }
 }
