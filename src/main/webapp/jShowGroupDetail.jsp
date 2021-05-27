@@ -295,7 +295,7 @@
                 </c:forEach>
             </c:if>
                 </div>
-                <button class="makeBet" type="submit" value="zurück" name="back" onclick="window.history.back()">zurück</button>
+                <button class="back" type="submit" value="zurück" name="back" onclick="window.history.back()">zurück</button>
         </form>
 
     </body>
