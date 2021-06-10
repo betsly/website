@@ -16,10 +16,11 @@ import java.sql.Statement;
  */
 public class DB_Database {
 
-    private String db_url = "jdbc:postgresql://localhost:5432/betsly";
+    //jdbc:postgresql://<host>:<port>/<dbname>
+    private String db_url = "jdbc:postgresql://ec2-79-125-30-28.eu-west-1.compute.amazonaws.com:5432/de8pqps1tt6h5";
     private String db_driver = "org.postgresql.Driver";
-    private String db_username = "postgres";
-    private String db_password = "postgres";
+    private String db_username = "hcninbdmztqqpn";
+    private String db_password = "a709002e51affe5c8a5b1998b5d56412985704da837dc66ba4c1b69316e1808f";
     private Connection connection;
     private DB_CachedConnection cachedConnection;
 
