@@ -15,10 +15,10 @@
 }
 #Registrieren {
     position: absolute;
-    width: 1920px;
-    height: 1080px;
     background-color: rgba(43,49,52,1);
     overflow: hidden;
+    width: 100%;
+    height: 100%;
     --web-view-name: Registrieren;
     --web-view-id: Registrieren;
     --web-scale-on-resize: true;
@@ -1089,6 +1089,7 @@
     stroke-miterlimit: 4;
     shape-rendering: auto;
 }
+
 #Primary_Button {
     position: absolute;
     width: 262px;
@@ -1109,6 +1110,7 @@
     top: 0px;
     overflow: visible;
 }
+
 #Rectangle_1 {
     fill: rgba(43,49,52,1);
 }
@@ -1133,6 +1135,7 @@
     left: 0px;
     top: 0px;
 }
+
 #Registrieren_dg {
     left: 64px;
     top: 24px;
@@ -1152,6 +1155,10 @@
     background-color: rgba(43,49,52,1);
     color: rgba(161,162,169,1);
 }
+#Registrieren_dg:hover {
+    background-color: #383f42;
+}
+
 #Primary_Button_dh {
     position: absolute;
     width: 262px;
