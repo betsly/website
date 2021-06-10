@@ -203,7 +203,7 @@
                 </div>
             <p id="title">Wilkommen bei <strong>BETSLY!</strong></p>
             <p id="description">Betsly garantiert großen Wettspaß!</p>
-            <div class="divbuttons" id="firstDivBt"><input class="bt" type="submit" value="Registrieren" name="registration"/></di>
+            <div class="divbuttons" id="firstDivBt"><input class="bt" type="submit" value="Registrieren" name="registration"/></div>
             <div class="divbuttons"><input class="bt" type="submit" value="Login" name="login" /></div>
         </form>
     </body>

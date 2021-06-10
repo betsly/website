@@ -25,6 +25,8 @@
     color: rgba(44,177,136,1);
     background-color: rgba(43,49,52,1);
     filter: drop-shadow(5px 5px 9px rgba(0, 0, 0, 0.149));
+    transition: background-color ease-in-out 200ms;
+    cursor: pointer;
 
 /*    overflow: visible;
     --web-animation: fadein 0.3s ease-out;
@@ -32,6 +34,11 @@
     --web-action-target: Registrieren.html;
     cursor: pointer;*/
 }
+
+.bt:hover {
+    background-color: #383f42;
+}
+
 #description{
     position: relative;
     top: 200px;
@@ -40,7 +47,7 @@
     font-style: normal;
     font-weight: normal;
     margin: 40px;
-    font-size: 45px;
+    font-size: 3em;
     color: rgba(44,177,136,1);
     
 }
@@ -48,13 +55,12 @@
 /*    width: 470px;
     height: 101px;*/
     position: relative;
-    top: 25px;
     text-align: center;
     top: 170px;
     font-family: Wagner Modern;
     font-style: bold;
     font-weight: normal;
-    font-size: 100px;
+    font-size: 6em;
     color: rgba(44,177,136,1);
 }
 
@@ -89,11 +95,11 @@
 
 #football {
     position: absolute;
-    width: 1007.056px;
-    height: 1157.153px;
+    width: 100%;
+    height: 100%;
     left: -415.13px;
     top: -211.971px;
-    overflow: visible;
+    overflow: hidden;
 }
 #Group_36 {
     transform: translate(-1081.868px, -139.033px) matrix(1,0,0,1,1216.6134,456.7228) rotate(90deg);
@@ -728,7 +734,7 @@
     position: absolute;
     width: 60px;
     height: 60px;
-    left: 1900px;
+    right: 30px;
     top: 45px;
     overflow: visible;
 }
