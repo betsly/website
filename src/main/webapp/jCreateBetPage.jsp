@@ -225,8 +225,8 @@
                     <div class="inputdiv"><input class= "input" type="text" name="country3" value="" placeholder="  Country3" list="countries_id"/> </div>
                     <div class="inputdiv"><input class= "input" type="text" name="country4" value="" placeholder="  Country4" list="countries_id"/> </div>
                 </c:if>
-                <div class="inputdiv"><input class="bt" type="submit" value="einreichen" name="createBetDB" />
-                    <input class="bt" type="submit" value="abbrechen" name="back" onclick="window.history.back()"/></div></div>
+                <div class="inputdiv"><input class="bt" type="submit" value="abbrechen" name="back" onclick="window.history.back()" />
+                    <input class="bt" type="submit" value="einreichen" name="createBetDB" /></div></div>
         </form>
     </body>
 </html>

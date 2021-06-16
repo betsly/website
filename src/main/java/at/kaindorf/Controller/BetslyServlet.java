@@ -164,7 +164,17 @@ public class BetslyServlet extends HttpServlet {
                 || request.getParameter("makeBetDBKO") != null || request.getParameter("makeBetDBGroup") != null
                 || request.getParameter("closeBetGroup") != null || request.getParameter("closeBetKO") != null) {
             request.getRequestDispatcher("jShowGroupDetail.jsp").forward(request, response);
-        } else if (jwtUser != null && !jwtUser.isEmpty()){
+        } else if(request.getParameter("closeGroupBet") != null){
+            int betId = Integer.parseInt(request.getParameter("closeGroupBet"));
+            for (BetGroupPhase betGroupPhase : betListGroup) {
+                if (betGroupPhase.getId() == betId) {
+                    request.setAttribute("bet", betGroupPhase);
+                    break;
+                }
+            }
+            request.getRequestDispatcher("jCloseBetGroup.jsp").forward(request, response);
+        } 
+        else if (jwtUser != null && !jwtUser.isEmpty()){
             request.getRequestDispatcher("jWelcomePage.jsp").forward(request, response);
         } else {
             request.getRequestDispatcher("homepage.jsp").forward(request, response);

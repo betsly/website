@@ -232,7 +232,7 @@
                     </rect>
                     </svg>
                     <div>
-                        <span><input type="text" name="email" value="" placeholder="Email Address" id="Email_Adresse" /></span>
+                        <span><input type="text" name="email" placeholder="max.mustermann@examle.com" id="Email_Adresse" /></span>
                     </div>
                 </div>
                 <svg class="Rectangle_2214_cq">
@@ -244,7 +244,7 @@
                 </rect>
                 </svg>
                 <div>
-                    <span><input type="text" name="username" value="" placeholder="Usermname" id="Username"/></span>
+                    <span><input type="text" name="username" placeholder="Max Mustermann" id="Username"/></span>
                 </div>
                 <div id="event">
                     <svg class="Rectangle_2231">
@@ -257,7 +257,7 @@
                     </svg>
                 </div>
                 <div >
-                    <span><input type="text" name="password" value="" placeholder="Password" id="Passwort"/></span>
+                    <span><input type="password" name="password" placeholder="Passwort" id="Passwort"/></span>
                 </div>
                 <div id="ID1633250">
                     <svg class="Path_216" viewBox="326.64 -1197.948 18.318 21.019">
@@ -341,7 +341,7 @@
                     </svg>
                 </div>
                 <div>
-                    <span><input type="text" value="" name="confirmPassword" placeholder="Passwort Bestätigen" id="Passwort_besttigen"/></span>
+                    <span><input type="password" value="" name="confirmPassword" placeholder="Passwort Bestätigen" id="Passwort_besttigen"/></span>
                 </div>
                 <div id="Group_59">
                     <svg class="Path_215_dz" viewBox="298.645 41.638 20.421 14.552">

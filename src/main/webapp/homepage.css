@@ -1,12 +1,8 @@
 .divbuttons{
     width: 100%;
     text-align: center;
-    
-    
-}
-#firstDivBt{
-    position: relative;
-    top: 300px;
+    position: absolute;
+    top: 50%;
 }
 
 .bt{

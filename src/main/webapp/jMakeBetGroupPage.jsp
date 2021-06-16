@@ -237,6 +237,7 @@
                 <option value="${bet.country4.id}">${bet.country4.name}</option>
             </select></div> </div>
             <div class="btdiv">
+                <input class="bt" type="submit" value="abbrechen" name="back" onclick="window.history.back()" />
                 <input class="bt" type="submit" value="make bet" name="makeBetDBGroup" /></div>
         </form> 
     </body>

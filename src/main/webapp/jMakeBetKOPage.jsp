@@ -210,7 +210,8 @@
                     </select>
                     <p class="text">Score:</p> <input class="input" type="text" name="score" value="" placeholder="0:0"/> </div>
                     <div class="btdiv">
-                        <input class="bt" type="submit" value="make bet" name="makeBetDBKO" /></div>
+                        <input class="bt" type="submit" value="abbrechen" name="back" onclick="window.history.back()" />
+                        <input class="bt" type="submit" value="make bet" name="makeBetDBKO" /> </div>
         </form> 
     </body>
 </html>

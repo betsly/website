@@ -214,8 +214,8 @@
                 <div class="inputs">
                     <div class="inputdiv"><input class="input" type="text" name="joinGroupName" id="joinGroupName" value="" placeholder="  Name"/></div>
                     <div class="inputdiv"> <input class="input" type="text" name="joinGroupPW" id="joinGroupPW" value="" placeholder="  Password"/></div>
-                    <div class="inputdiv"><input class="bt" type="submit" value="Gruppe beitreten" name="joinGroup" />
-                    <<input class="bt" type="submit" value="Zurück" name="backJoin" /></div>
+                    <div class="inputdiv"><input class="bt" type="submit" value="Zurück" name="backJoin" /><input class="bt" type="submit" value="Gruppe beitreten" name="joinGroup" />
+                    </div>
         </form>
     </body>
 </html>

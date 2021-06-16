@@ -236,6 +236,9 @@
                     </div>
                 </ul>
             </c:if>
+                <div class="btdiv">
+                        <input class="bt" type="submit" value="zurück" name="back" onclick="window.history.back()" />
+                </div>
         </form>
     </body>
 </html>
