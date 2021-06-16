@@ -164,8 +164,10 @@ public class BetslyServlet extends HttpServlet {
                 || request.getParameter("makeBetDBKO") != null || request.getParameter("makeBetDBGroup") != null
                 || request.getParameter("closeBetGroup") != null || request.getParameter("closeBetKO") != null) {
             request.getRequestDispatcher("jShowGroupDetail.jsp").forward(request, response);
-        } else {
+        } else if (jwtUser != null && !jwtUser.isEmpty()){
             request.getRequestDispatcher("jWelcomePage.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("homepage.jsp").forward(request, response);
         }
     }
 
@@ -219,16 +221,16 @@ public class BetslyServlet extends HttpServlet {
             try {
                 pwCompare = DB_Access.getInstance().getPasswordByEmail(email);
             } catch (SQLException ex) {
-                databaseError = true;
+                System.out.println(ex.toString());
             }
-            if (password.hashCode() == pwCompare && pwCompare != -1) {
+            if (pwCompare != -1 && password.hashCode() == pwCompare) {
                 try {
                     jwtUser = JWT.createJWT(email, DB_Access.getInstance().getUsernameByEmail(email), "login-success", 1000000000);
                 } catch (SQLException ex) {
                     Logger.getLogger(BetslyServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
-                request.setAttribute("test", pwCompare + " " + password.hashCode());
+                System.out.println(pwCompare + "----" + password.hashCode());
             }
 
             //--------------
@@ -403,10 +405,9 @@ public class BetslyServlet extends HttpServlet {
             }
         }
 
-        if (!jwtUser.equals("")) {
+        if (jwtUser != null && !jwtUser.isEmpty()) {
             request.setAttribute("username", JWT.decodeJWT(jwtUser).getIssuer());
         }
-
         processRequest(request, response);
 
     }
