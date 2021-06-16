@@ -181,7 +181,7 @@
     height: 1157.153px;
     left: -415.13px;
     top: -211.971px;
-    overflow: visible;
+    overflow: hidden;
 }
 #Group_36 {
     transform: translate(-1081.868px, -139.033px) matrix(1,0,0,1,1216.6134,456.7228) rotate(90deg);
@@ -1067,7 +1067,7 @@
     overflow: visible;
     --web-animation: fadein 0.3s ease-out;
     --web-action-type: page;
-    --web-action-target: Meine_Gruppen.html;
+   
     cursor: pointer;
 }
 #Rounded_button {
@@ -1119,7 +1119,7 @@
     font-size: 26px;
     --web-animation: fadein 0.2s snap;
     --web-action-type: page;
-    --web-action-target: Meine_Gruppen.html;
+    
 }
 #Primary_Button_dc {
     position: absolute;
@@ -1130,7 +1130,7 @@
     overflow: visible;
     --web-animation: fadein 0.3s ease-out;
     --web-action-type: page;
-    --web-action-target: Registrieren.html;
+    
     cursor: pointer;
 }
 #Rounded_button_dd {
@@ -1182,7 +1182,7 @@
     font-size: 26px; 
     --web-animation: fadein 0.2s snap;
     --web-action-type: page;
-    --web-action-target: Registrieren.html;
+    
 }
 #Group_35 {
     position: absolute;
@@ -1239,7 +1239,7 @@
     white-space: nowrap;
     --web-animation: fadein 0.3s ease-out;
     --web-action-type: page;
-    --web-action-target: Password_wiederherstellen.html;
+    
     cursor: pointer;
     text-align: left;
     font-family: FreightSans Pro;

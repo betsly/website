@@ -26,10 +26,10 @@
             <div class="content">
                 
                 <p class="title">${currentGroup.name}</p>
-
+                <div id="outerDiv">
                 <div class="split-screen">
                     <div id="divRanking">
-                        <div>
+                        <div id="innerDivRanking">
                             <p id="ranking">Ranking</p>
                             <ol>
                                 <c:set var="counter" value="1"></c:set>
@@ -114,7 +114,7 @@
                             </c:forEach>
                         </c:if>
                     </div>
-                    </div>
+                    </div></div>
 
                 </div>
             
