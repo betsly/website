@@ -79,12 +79,21 @@
     cursor: pointer;*/
 }
 .tablediv{
-   
+    
     position: absolute;
-    top: 40%;
+    top: 60%;
     width: 100%;
    
 /*    text-align: center;*/
+}
+#divScroll{
+     overflow: auto;
+     width: 850px;
+     height: 400px;
+     position: absolute;
+     left: 50%;
+     transform: translate(-50%,-50%);
+     
 }
 #grouptable{
   font-family: Arial, Helvetica, sans-serif;

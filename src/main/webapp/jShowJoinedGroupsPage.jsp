@@ -207,6 +207,7 @@
                 <p class="title">Joined Groups</p>
                 <ul id="groups">
                     <div class="tablediv">
+                        <div id="divScroll">
                         <table id="grouptable">
                             <thead>
                                 <tr>
@@ -233,7 +234,7 @@
                                 </c:forEach>
                             </tbody>
                         </table>
-                    </div>
+                    </div></div>
                 </ul>
             </c:if>
                 <div class="btdiv">
