@@ -211,7 +211,7 @@
                 <div class="inputs"><input class="input" type="text" name="createGroupDes" id="createGroupDes" value="" placeholder="  Beschreibung"/></div></div>
                 <div id="divb">
                 <div class="buttons"><input class="bt" type="submit" value="Gruppe erstellen" name="createGroup" /></div>
-                <div class="buttons"><input class="bt" type="submit" value="Zurück" name="backCreate" /></div></div>
+                <div class="buttons"><input class="bt" type="submit" value="Zurück" name="backCreate" onclick="window.history.back()"/></div></div>
         </form>
     </body>
 </html>
