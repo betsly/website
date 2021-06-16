@@ -203,7 +203,7 @@
                     </svg>
                 </div>
         <form action="./BetslyServlet" method="post">
-            <p class="title">${betNameKo}</p>
+            <p class="title">${bet.name}</p>
             <span class="text2">Sieger: </span> <select class="select" name="winner">
                 <option value="${bet.country1.id}">${bet.country1.name}</option>
                 <option value="${bet.country2.id}">${bet.country2.name}</option>
@@ -211,7 +211,7 @@
             <span class="text2">Score:</span> <input class="input" type="text" name="scoreClose" value="" placeholder="0:0"/>
             <div class="btdiv">
                 <input class="bt" type="submit" value="abbrechen" name="back" onclick="window.history.back()" />
-                <button class="bt" type="submit" value="${bet.id} ${bet.groupId}" name="closeBetGroup" >Wette schließen</button> </div>
+                <button class="bt" type="submit" value="${bet.betId} ${bet.groupId}" name="closeBetKo" >Wette schließen</button> </div>
         </form>
     </body>
 </html>
